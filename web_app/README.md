@@ -9,8 +9,8 @@
 #### Setup the source code
 
 ```
-git clone https://github.com/snowch/demo_2710
-cd demo_2710/web_app
+git clone https://github.com/snowch/movie-recommender-demo
+cd movie-recommender-demo/web_app
 source venv/bin/activate
 pip3.5 install -r requirements.txt
 ```
