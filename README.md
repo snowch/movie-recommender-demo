@@ -18,15 +18,15 @@ You can import these notebooks into IBM Data Science Experience.
 
 The technologies used in this demo are:
 
-    Python flask application (this application)
-    IBM Bluemix for hosting the web application and services
-    IBM Cloudant NoSQL for storing movies, ratings, user accounts and recommendations
-    IBM Compose Redis for maintaining an Atomic Increment counter for ID fields for user accounts
-    IBM Datascience Experience (DSX) and Spark as a Service for:
-        exploring data and analysing ratings
-        training and testing a recommendation model
-        retraining recommendation model hourly
-        generating recommendations and saving to Cloudant
+ - Python flask application
+ - IBM Bluemix for hosting the web application and services
+ - IBM Cloudant NoSQL for storing movies, ratings, user accounts and recommendations
+ - IBM Compose Redis for maintaining an Atomic Increment counter for ID fields for user accounts
+ - IBM Datascience Experience (DSX) and Spark as a Service for:
+    - exploring data and analysing ratings
+    - training and testing a recommendation model
+    - retraining recommendation model hourly
+    - generating recommendations and saving to Cloudant
 
 ## Setting up your own demo
 
