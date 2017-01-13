@@ -1,0 +1,7 @@
+"compose-for-redis": [{ "credentials": {
+  "db_type": "redis",
+  "name": "changeme",
+  "uri_cli": "changeme",
+  "deployment_id": "changeme",
+  "uri": "changeme"
+}}]

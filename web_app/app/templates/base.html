@@ -1,0 +1,109 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Movie Recommender{% endblock %}
+
+{% block head %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
+{{ moment.include_jquery() }}
+{{ moment.include_moment() }}
+
+<style>
+.main-body {
+    /* prevent body siting under footer */
+    margin-bottom:55px;
+}
+</style>
+
+{% endblock %}
+
+{% block navbar %}
+
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/home">Movie Recommender</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+            <div class="col-sm-4 col-md-4">
+               <form class="navbar-form" method="POST" action="{{ url_for('main.set_search_string') }}">
+               <div class="input-group" style="width: 100%">
+                   {% if session['search_string'] %}
+                   <input type="text" class="form-control" value="{{ session['search_string'] }}" name="search_string">
+                   {% else %}
+                   <input type="text" class="form-control" placeholder="Search for movies" name="search_string">
+                   {% endif %}
+                   <div class="input-group-btn">
+                       <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                   </div>
+               </div>
+               </form>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.recommendations') }}">Get Recommendations</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Account <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+                        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Log In / Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    <div class="col-sm-12 text-center navbar-text">
+        <p class="text-muted">
+            <b>NOTE:</b> This demo is periodically refreshed - any data you enter will be deleted.
+            <br>
+            {% if current_user.is_authenticated %}
+            You are currently logged in as: {{ current_user.email }}
+            {% endif %}
+        </p>
+    </div>
+  </div>
+</nav>
+
+{% endblock %}
+
+{% block content %}
+<div class="container main-body">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}

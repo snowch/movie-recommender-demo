@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+
+*.swp
+
+# downloaded data is not licensed to redistribute
+ml-1m.zip
+ml-1m/
+
+# vcap files with credentials in them!
+redis_vcap.json
+cloudant_vcap.json
+messagehub_vcap.json
+biginsight_credentials.json
+venv/pip-selfcheck.json
+venv/.DS_Store
+.project
+.pydevproject
+.DS_Store

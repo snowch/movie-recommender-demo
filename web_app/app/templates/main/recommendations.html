@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Movie Recommendations{% endblock %}
+
+{% block page_content %}
+
+
+<div>
+{% if current_user.is_authenticated %}
+
+<div>
+    <p>Recommendations are provided by IBM's Data Science Experience (DSX) using Apache Spark as a Service. Recommendations are scheduled to run every hour and are saved to Cloudant NoSQL DB. If you have rated some movies prior to the spark job, recommendations will be generated using Apache Spark machine learning (ALS).  This is 'BATCH' mode.</p>
+    <p>If you have rated some movies you should also be presented with recommendations prior to the hourly batch run.  Recommendations generated this way are called 'REALTIME' and use the model from the previous batch run, updating it with your ratings. For more information on the approach used, see <a href="http://stackoverflow.com/questions/41537470/als-model-how-to-generate-full-u-vt-v?noredirect=1&lq=1">here</a>.
+    </p>
+</div>
+
+<hr>
+
+    {% if recommendations %}
+
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Movie ID</th>
+          <th>Movie Name</th>
+          <th>Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for recommendation in recommendations %}
+      <tr>
+          <td>{{ recommendation.movie_id }}</td>
+          <td>{{ recommendation.movie_name }}</td>
+          <td>{{ recommendation.rating }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+    <hr/>
+<div>
+    <p class="text-center">
+    DSX job last run on: <font color="red">{{ moment(timestamp).format('MMMM Do YYYY, h:mm:ss a') }} ({{ moment(timestamp).fromNow() }})</font></p>
+
+    <hr/>
+</div>
+
+    {% endif %}
+
+
+{% else %}
+    <b><a href="{{ url_for('auth.login') }}">Login</a> to get Movie recommendations...</b>
+{% endif %}
+</div>
+
+
+
+{% endblock %}

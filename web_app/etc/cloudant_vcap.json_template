@@ -1,0 +1,7 @@
+"cloudantNoSQLDB": [{"credentials": {
+    "username": "changeme", 
+    "url": "https://changeme-bluemix.cloudant.com", 
+    "host": "changeme-bluemix.cloudant.com", 
+    "password": "changeme", 
+    "port": 443
+}}]
