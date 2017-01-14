@@ -8,6 +8,18 @@ If you want to try out a live demo, visit [here](https://movie-recommend-demo.my
 
 This project is a demo movie recommender application. This demo has been installed with approximately four thousand movies and one million ratings from the MovieLens 1M Dataset. The purpose of this web application is to allow users to search for movies, rate movies, and receive recommendations for movies based on their ratings.
 
+### Screenshot - rating a movie
+
+The screenshot below shows some movies being rated by a user.
+
+![Screenshot of rating a movie](./docs/screenshot_ratings.png)
+
+### Screenshot - movie recommendations
+
+The screenshot below shows movie recommendations provided by Spark machine learning.
+
+![Screenshot of movie recommendations](./docs/screenshot_recommendations.png)
+
 ## Notebooks
 
 Start with [Step 00 - Project Overview](./Step 00 - Project Overview.ipynb) to read more about this project.
