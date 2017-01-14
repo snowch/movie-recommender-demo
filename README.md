@@ -29,7 +29,7 @@ The technologies used in this demo are:
     - generating recommendations and saving to Cloudant
  - IBM Datascience Experience (DSX) Github integration for saving notebooks
  
- The overall architeture looks like this:
+The overall architeture looks like this:
 
 <p align="center">
 <img src="./docs/movie-recommender-demo.png" width="50%">
