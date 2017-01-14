@@ -31,3 +31,17 @@ The technologies used in this demo are:
 ## Setting up your own demo
 
 See the instructions [here](https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md)
+
+## Web application screenshots 
+
+### Rating a movie
+
+The screenshot below shows some movies being rated by a user.
+
+![Screenshot of rating a movie](./docs/screenshot_ratings.png)
+
+### Movie recommendations
+
+The screenshot below shows movie recommendations provided by Spark machine learning.
+
+![Screenshot of movie recommendations](./docs/screenshot_recommendations.png)
