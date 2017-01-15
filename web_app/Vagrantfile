@@ -12,11 +12,14 @@ Vagrant.configure("2") do |config|
   config.vm.network "private_network", type: "dhcp"
 
   config.vm.provision "shell", inline: <<-SHELL
+
+     wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+     echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+
      apt-get update
      apt-get upgrade -y
 
-     #apt-get install -y apache2
-     sudo apt install -y python-pip build-essential libssl-dev virtualenv python3-dev
+     sudo apt install -y python-pip build-essential libssl-dev virtualenv python3-dev cf-cli
 
      # Install bluemix tools if they aren't already installed
      if [[ ! -d ~/Bluemix_CLI ]];
@@ -28,14 +31,7 @@ Vagrant.configure("2") do |config|
          sudo ./install_bluemix_cli
      fi
 
-     wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-
-     echo "deb http://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-
-     sudo apt-get update
-     sudo apt-get install cf-cli
-
-     if [[ ! -d ~/demo_2710 ]];
+     if [[ ! -d ~/movie-recommender-demo ]];
      then
         git clone https://github.com/snowch/movie-recommender-demo.git
         cd movie-recommender-demo/web_app
