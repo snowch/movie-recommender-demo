@@ -35,10 +35,6 @@ The overall architecture looks like this:
 <img alt="Overall Architecture" src="./docs/movie-recommender-demo.png" width="50%">
 </p>
 
-## Setting up your own demo
-
-See the instructions [here](https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md)
-
 ## Web application screenshots 
 
 ### Rating a movie
@@ -52,3 +48,7 @@ The screenshot below shows some movies being rated by a user.
 The screenshot below shows movie recommendations provided by Spark machine learning.
 
 ![Screenshot of movie recommendations](./docs/screenshot_recommendations.png)
+
+## Setting up your own demo instance on Bluemix
+
+See the instructions [here](https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md)
