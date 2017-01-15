@@ -19,8 +19,9 @@ Vagrant.configure("2") do |config|
      sudo apt install -y python-pip build-essential libssl-dev virtualenv python3-dev
 
      # Install bluemix tools if they aren't already installed
-     if [[ ! -d Bluemix_CLI ]];
+     if [[ ! -d ~/Bluemix_CLI ]];
      then
+         cd ~
          wget -c http://public.dhe.ibm.com/cloud/bluemix/cli/bluemix-cli/Bluemix_CLI_0.4.5_amd64.tar.gz
          tar -xvzf Bluemix_CLI*.tar.gz
          cd Bluemix_CLI
@@ -34,18 +35,13 @@ Vagrant.configure("2") do |config|
      sudo apt-get update
      sudo apt-get install cf-cli
 
-     cd ~
-
-     if [[ ! -d demo_2710 ]];
+     if [[ ! -d ~/demo_2710 ]];
      then
-        git clone https://github.com/snowch/demo_2710.git
-        cd demo_2710
-        cd web_app
+        git clone https://github.com/snowch/movie-recommender-demo.git
+        cd movie-recommender-demo/web_app
         virtualenv venv --python=python3.5
         source venv/bin/activate 
         pip3.5 install -f requirements.txt
      fi
-
-
    SHELL
 end
