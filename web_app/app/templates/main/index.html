@@ -61,15 +61,17 @@
     <p>Welcome to this demo movie recommender application.  This demo has been installed with approximately four thousand movies and one million ratings from the <a href="http://grouplens.org/datasets/movielens/1m/">MovieLens 1M Dataset</a>.  The purpose of this web application is to allow users to search for movies, rate movies, and receive recommendations for movies based on their ratings.
     <p>To get started:
     <ul>
-        <li>Register for an account</li>
-        <li>Login to your account</li>
-        <li>Search for movies</li>
-        <li>Rate a few movies</li>
-        <li>Receive movie recommendations</li>
+        <li><a href="{{ url_for('auth.register') }}">Register</a> for an account</li>
+        <li><a href="{{ url_for('auth.login') }}">Login</a> to your account</li>
+        <li>Use the Search box in the header to search for and rate some movies</li>
+        <li><a href="{{ url_for('main.recommendations') }}">Receive</a> movie recommendations</li>
     </ul>
-    <p><b>NOTE:</b> The goal of this webapp is to show Apache spark functionality so lots of useful functionality is missing that you would expect in a commercial movie recommendation web site.
+    <p><b>NOTE:</b> The goal of this webapp is to show Apache Spark Machine Learning. Therefore, some functionality is missing and it doesn't have the polish that you would expect from a commercial movie recommendation web site.
     <h2>Technologies</h2>
-    <p>The technologies used in this demo are:
+    <p>The technologies used in this demo are:</p>
+    <img alt="Overall Architecture" src="{{ url_for('static', filename='movie-recommender-demo.png') }}" width="30%">
+    <br/>
+    <br/>
     <ul>
         <li>Python flask application (this application)</li>
         <li>IBM Bluemix for hosting the web application and services</li> 
@@ -77,27 +79,21 @@
         <li>IBM Compose Redis for maintaining an Atomic Increment counter for ID fields for user accounts</li>
         <li>IBM Datascience Experience (DSX) and Spark as a Service for:</li>
            <ul>
-               <li>exploring data and analysing ratings</li>
-               <li>training and testing a recommendation model</li>
-               <li>retraining recommendation model hourly</li>
-               <li>generating recommendations and saving to Cloudant</li>
+               <li>Exploring data and analysing ratings</li>
+               <li>Training and testing a recommendation model</li>
+               <li>Retraining recommendation model hourly (DSX Scheduled Job)</li>
+               <li>Generating recommendations and saving to Cloudant</li>
            </ul>
         </li>
     </ul>
-    <h2>Notebooks/Source Code</h2>
+    <h2>Source Code</h2>
     <ul>
-        <li>See <a href="https://github.com/snowch/movie-recommender-demo/">here</a></li>
-        <li>To run this demo on your own Bluemix/DSX account or run it locally, see <a href="https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md">here</a></li>
+        <li>The source code for the web application and the jupyter notebooks are available in github: <a href="https://github.com/snowch/movie-recommender-demo/">here</a></li>
+        <li>To run this web application on your own Bluemix/DSX account or run it locally, see <a href="https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md">here</a></li>
     </ul>
-    <h2>Task List</h2>
-    <p>This section lists some of the main TODO items
-    <ul>
-        <li>Realtime recommendaions are broken. See <a href="http://stackoverflow.com/questions/41568974/als-model-predicted-full-u-vt-v-ratings-are-very-high">here</a></li>
-        <li>Document the solution architecture.</li>
-    </ul>
-    <b>Contributions are most welcome!</b>
-    <br>
-    <hr>
+    <br/>
+    <br/>
+    <br/>
 {% endif %}
 
 {% endblock %}
