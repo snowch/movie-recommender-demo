@@ -49,6 +49,9 @@
         </tbody>
     </table>
 
+    <br>
+    <br>
+
     {% if not current_user.is_authenticated %}
     <em><b>Note:</b></em> Album ratings are not displayed because you are not logged in. <a href="{{ url_for('auth.login') }}">Login</a> to show your ratings...
     <hr/>
