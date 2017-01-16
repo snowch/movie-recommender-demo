@@ -17,3 +17,4 @@ venv/.DS_Store
 .project
 .pydevproject
 .DS_Store
+venv/

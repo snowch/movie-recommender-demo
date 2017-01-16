@@ -6,32 +6,12 @@ from .. import app
 from ..models import Movie, Recommendation, Rating
 from ..dao import RecommendationsNotGeneratedException, RecommendationsNotGeneratedForUserException
 
-@main.route('/home', methods=['GET'])
-def home():
-
-    session['search_string'] = None
-    session['movies'] = []
-
-    return render_template('/main/index.html', 
-            name = session.get('search_string'),
-            movies = session.get('movies'))
-
-
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/', methods=['GET'])
 def index():
 
-    search_string = session.get('search_string') 
-    if search_string:
-        session['movies'] = Movie.find_movies(
-                                        current_user.get_id(),
-                                        session.get('search_string')
-                                        )
-    else:
-        session['movies'] = []
-
-    return render_template('/main/index.html', 
-            name = search_string,
+    return render_template('/main/home.html', 
             movies = session.get('movies'))
+
 
 @main.route('/recommendations', methods=['GET', 'POST'])
 def recommendations():
@@ -67,11 +47,24 @@ def recommendations():
 
         return render_template('/main/recommendations.html', recommendations=recommendations, timestamp=timestamp)
 
-@main.route('/set_search_string', methods=['POST'])
-def set_search_string():
+@main.route('/search', methods=['POST'])
+def search():
     form = forms.SearchForm()
     session['search_string'] = form.search_string.data
-    return redirect(url_for('main.index'))
+
+    search_string = session.get('search_string') 
+    if search_string:
+        search_string = search_string.strip()
+        session['movies'] = Movie.find_movies(
+                                        current_user.get_id(),
+                                        session.get('search_string')
+                                        )
+    else:
+        session['movies'] = []
+
+    return render_template('/main/search_results.html', 
+            search_string = search_string,
+            movies = session.get('movies'))
 
 @main.route('/set_rating', methods=['POST'])
 @login_required

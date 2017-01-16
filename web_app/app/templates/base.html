@@ -32,12 +32,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/home">Movie Recommender</a>
+            <a class="navbar-brand" href="/">
+                <span class="glyphicon glyphicon-home"></span>&nbsp;
+               Movie Recommender</a>
         </div>
         <div class="navbar-collapse collapse">
 
             <div class="col-sm-4 col-md-4">
-               <form class="navbar-form" method="POST" action="{{ url_for('main.set_search_string') }}">
+               <form class="navbar-form" method="POST" action="{{ url_for('main.search') }}">
                <div class="input-group" style="width: 100%">
                    {% if session['search_string'] %}
                    <input type="text" class="form-control" value="{{ session['search_string'] }}" name="search_string">

@@ -57,43 +57,20 @@
 {% else %}
 <!-- there are no movies, so we must be on the welcome screen -->
 
-    <h2>Overview</h2>
-    <p>Welcome to this demo movie recommender application.  This demo has been installed with approximately four thousand movies and one million ratings from the <a href="http://grouplens.org/datasets/movielens/1m/">MovieLens 1M Dataset</a>.  The purpose of this web application is to allow users to search for movies, rate movies, and receive recommendations for movies based on their ratings.
-    <p>To get started:
+    {% if search_string == "" %}
+    <p>Empty search string - please enter a movie search string.</p>
+    {% else %}
+    <p>No movies found for search string: <b>{{ search_string }}</b>.</p>
+    <p>Remember only ~4000 movies have been uploaded.</p>
+    <p>Here are some examples:</p>
     <ul>
-        <li><a href="{{ url_for('auth.register') }}">Register</a> for an account</li>
-        <li><a href="{{ url_for('auth.login') }}">Login</a> to your account</li>
-        <li>Use the Search box in the header to search for and rate some movies</li>
-        <li><a href="{{ url_for('main.recommendations') }}">Receive</a> movie recommendations</li>
+        <li>Toy Story</a></li>
+        <li>Jumanji</li>
+        <li>Grumpier Old Men</li>
     </ul>
-    <p><b>NOTE:</b> The goal of this webapp is to show Apache Spark Machine Learning. Therefore, some functionality is missing and it doesn't have the polish that you would expect from a commercial movie recommendation web site.
-    <h2>Technologies</h2>
-    <p>The technologies used in this demo are:</p>
-    <img alt="Overall Architecture" src="{{ url_for('static', filename='movie-recommender-demo.png') }}" width="30%">
-    <br/>
-    <br/>
-    <ul>
-        <li>Python flask application (this application)</li>
-        <li>IBM Bluemix for hosting the web application and services</li> 
-        <li>IBM Cloudant NoSQL for storing movies, ratings, user accounts and recommendations</li>
-        <li>IBM Compose Redis for maintaining an Atomic Increment counter for ID fields for user accounts</li>
-        <li>IBM Datascience Experience (DSX) and Spark as a Service for:</li>
-           <ul>
-               <li>Exploring data and analysing ratings</li>
-               <li>Training and testing a recommendation model</li>
-               <li>Retraining recommendation model hourly (DSX Scheduled Job)</li>
-               <li>Generating recommendations and saving to Cloudant</li>
-           </ul>
-        </li>
-    </ul>
-    <h2>Source Code</h2>
-    <ul>
-        <li>The source code for the web application and the jupyter notebooks are available in github: <a href="https://github.com/snowch/movie-recommender-demo/">here</a></li>
-        <li>To run this web application on your own Bluemix/DSX account or run it locally, see <a href="https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md">here</a></li>
-    </ul>
-    <br/>
-    <br/>
-    <br/>
+    {% endif %}
+
+
 {% endif %}
 
 {% endblock %}
