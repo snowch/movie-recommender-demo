@@ -48,12 +48,12 @@ def register():
         user = models.User(None, form.email.data, form.password.data)
         user.save()
 
-        #token = user.generate_confirmation_token()
-        # send_email(user.email, 'Confirm Your Account',
-        #           'auth/email/confirm', user=user, token=token)
-        #flash('A confirmation email has been sent to you by email.')
+        user = models.User.find_by_email(form.email.data)
 
-        flash('Your account has been created - please login.')
-        return redirect(url_for('auth.login'))
+        if user is not None and user.verify_password(form.password.data):
+            login_user(user)
+            flash('Registration successful for user {0} - you are now logged into your account'.format(user.email))
+            return redirect(request.args.get('next') or url_for('main.index'))
+
     return render_template('auth/register.html', form=form)
 

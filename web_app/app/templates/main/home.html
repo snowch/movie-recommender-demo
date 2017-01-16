@@ -10,10 +10,12 @@
     <p>Welcome to this demo movie recommender application.  This demo has been installed with approximately four thousand movies and one million ratings from the <a href="http://grouplens.org/datasets/movielens/1m/">MovieLens 1M Dataset</a>.  The purpose of this web application is to allow users to search for movies, rate movies, and receive recommendations for movies based on their ratings.
     <p>To get started:
     <ul>
-        <li><a href="{{ url_for('auth.register') }}">Register</a> for an account</li>
-        <li><a href="{{ url_for('auth.login') }}">Login</a> to your account</li>
+        {% if not current_user.is_authenticated %}
+        <li>New users: <a href="{{ url_for('auth.register') }}">Register</a> for an account</li>
+        <li>Existing users: <a href="{{ url_for('auth.login') }}">Login</a> to your account</li>
+        {% endif %}
         <li>Use the Search box in the header to search for and rate some movies</li>
-        <li><a href="{{ url_for('main.recommendations') }}">Receive</a> movie recommendations</li>
+        <li><a href="{{ url_for('main.recommendations') }}">Get Recommendations</a> for movies</li>
     </ul>
     <p><b>NOTE:</b> The goal of this webapp is to show Apache Spark Machine Learning. Therefore, some functionality is missing and it doesn't have the polish that you would expect from a commercial movie recommendation web site.
     <h2>Technologies</h2>

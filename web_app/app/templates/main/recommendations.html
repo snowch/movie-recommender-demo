@@ -9,9 +9,10 @@
 {% if current_user.is_authenticated %}
 
 <div>
-    <p>Recommendations are provided by IBM's Data Science Experience (DSX) using Apache Spark as a Service. Recommendations are scheduled to run every hour and are saved to Cloudant NoSQL DB. If you have rated some movies prior to the spark job, recommendations will be generated using Apache Spark machine learning (ALS).  This is 'BATCH' mode.</p>
-    <p>If you have rated some movies you should also be presented with recommendations prior to the hourly batch run.  Recommendations generated this way are called 'REALTIME' and use the model from the previous batch run, updating it with your ratings. For more information on the approach used, see <a href="http://stackoverflow.com/questions/41537470/als-model-how-to-generate-full-u-vt-v?noredirect=1&lq=1">here</a>.
+    <p>Recommendations are provided by IBM's Data Science Experience (DSX) using Apache Spark as a Service. Recommendations are scheduled to run every hour and are saved to Cloudant NoSQL DB. If you have rated some movies prior to the spark job, recommendations will be generated using Apache Spark machine learning (ALS).  This is 'BATCH' mode.  For more information on Spark ALS, see <a href="https://spark.apache.org/docs/latest/ml-collaborative-filtering.html">here</a>.
+    <p>If you have rated some movies you should also be presented with recommendations prior to the hourly batch run.  Recommendations generated this way I'm calling 'REALTIME' (although INCREMENTAL or AUGMENTED may have been better terms) and use the model from the previous batch run to manually calculate your ratings. For more information on the approach used, see <a href="http://stackoverflow.com/questions/41537470/als-model-how-to-generate-full-u-vt-v?noredirect=1&lq=1">here</a>.
     </p>
+    <p><b>IMPORTANT!</b>: Although the predicated ratings are displayed in this demo this is probably not a best practice because when users see the predicted ratings they tend to expect extremely high accuracy and lose trust in the recommender if the user feels the recommender has mis-predicted.  The predicted ratings have been provided only for demonstration purposes.</p> 
 </div>
 
 <hr>

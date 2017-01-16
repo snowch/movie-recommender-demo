@@ -60,9 +60,14 @@
                 {% if current_user.is_authenticated %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-user"></span>&nbsp;
                         Account <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
+                        {% if current_user.is_authenticated %}
+                        <li class="dropdown-header">User: {{ current_user.email }}</li>
+                        <li role="presentation" class="divider"></li>
+                        {% endif %}
                         <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                     </ul>
