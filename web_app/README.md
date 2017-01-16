@@ -4,6 +4,7 @@
 
 - Cloud Foundry CLI installed: https://console.ng.bluemix.net/docs/starters/install_cli.html
 - Local python version must be 3.5.x.  Older python versions will not work.
+- Virtualenv installed
 - Linux/OS X are recommended for your local development environment.
 
 #### Setup the source code
@@ -11,6 +12,7 @@
 ```
 git clone https://github.com/snowch/movie-recommender-demo
 cd movie-recommender-demo/web_app
+virtualenv venv --python=python3.5 
 source venv/bin/activate
 pip3.5 install -r requirements.txt
 ```
