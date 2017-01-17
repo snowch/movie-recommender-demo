@@ -22,6 +22,16 @@ CL_DBS = [ CL_MOVIEDB, CL_AUTHDB, CL_RATINGDB, CL_RECOMMENDDB ]
 
 # TODO use flask logging rather than print()
 
+def dbs_exist():
+
+    dbs = cloudant_client.all_dbs()
+    for db in CL_DBS:
+        if db not in dbs:
+            print('Database not found', db)
+            return False
+
+    return True
+
 def delete_dbs():
 
     dbs = cloudant_client.all_dbs()

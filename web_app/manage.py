@@ -1,7 +1,7 @@
 from flask.ext.script import Manager, Server
 from app import app
 import config
-from db_setup import delete_dbs, create_dbs, populate_movie_db, populate_rating_db, create_moviedb_indexes, create_authdb_indexes, create_latest_recommendations_index, create_test_user
+from db_setup import dbs_exist, delete_dbs, create_dbs, populate_movie_db, populate_rating_db, create_moviedb_indexes, create_authdb_indexes, create_latest_recommendations_index, create_test_user
 
 port = app.config['PORT']
 server = Server(host="0.0.0.0", port=port)
@@ -42,4 +42,11 @@ if app.debug:
         print(rule.endpoint, rule)
 
 if __name__ == '__main__':
+
+    # if running via deploy to bluemix, we need to setup everything
+
+    if not dbs_exist():
+        db_setup()
+        db_populate()
+
     manager.run()
