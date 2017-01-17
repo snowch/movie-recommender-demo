@@ -1,7 +1,7 @@
 declared-services: 
     my_cloudant: 
         label: cloudantNoSQLDB 
-        plan: Shared 
+        plan: Lite 
 
     my_redis: 
         label: redis
