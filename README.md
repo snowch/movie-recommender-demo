@@ -49,6 +49,16 @@ The screenshot below shows movie recommendations provided by Spark machine learn
 
 ![Screenshot of movie recommendations](./docs/screenshot_recommendations.png)
 
-## Setting up your own demo instance on Bluemix
+## Setting up your own demo web application instance on Bluemix
+
+### Quick deploy
+
+Click on this link, then follow the instructions.  Note that this step may take quite a long time (maybe 30 minutes).
+
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/snowch/movie-recommender-demo.git)
+
+An instance of Cloudant, Compose Redis and the Flask web application will be set up for you.
+
+### Deploy using cf tools
 
 See the instructions [here](https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md)
