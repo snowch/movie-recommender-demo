@@ -55,6 +55,10 @@ Open this to try out the webapp locally.
 Then run:
 
 ```
+# change directory to the folder with manifest.yml
+
+cd ..
+
 # When you login, you will be prompted to select the space and org.
 # ensure you choose the space/org where you created your Cloudant 
 # service and Redis service 
