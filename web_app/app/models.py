@@ -98,22 +98,17 @@ class Recommendation:
                                                                     )
             recommendation_type = "REALTIME"
 
-        # convert ratings to string with 2DP
-        ratings = [ str(r) for r in ratings ]
-
         # we have the movie_ids, let's get the movie names
-        recommendations = {}
+        recommendations = [] 
         for movie_id, movie_name in MovieDAO.get_movie_names(movie_ids).items():
             rating = ratings[movie_ids.index(movie_id)]
             recommendation = Recommendation(movie_id, movie_name, rating)
-            recommendations[rating] = recommendation
+            recommendations.append(recommendation)
 
         # sort by rating
-        sorted_recommendations = []
-        for k in sorted(ratings, reverse=True):
-            sorted_recommendations.append( recommendations[k] ) 
+        recommendations.sort(key=lambda r: r.rating, reverse=True)
 
-        return (recommendation_type, sorted_recommendations)
+        return (recommendation_type, recommendations)
 
     def as_dict(self):
         return dict(
