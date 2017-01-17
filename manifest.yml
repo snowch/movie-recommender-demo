@@ -19,3 +19,7 @@ applications:
   services:
   - my_cloudant
   - my_redis
+  # allow 3 minutes to start the application 
+  # when we use deploy to bluemix, the db's get
+  # created and populated on the fly
+  timeout: 180
