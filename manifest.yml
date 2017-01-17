@@ -4,8 +4,8 @@ declared-services:
         plan: Lite 
 
     my_redis: 
-        label: redis
-        plan: 100
+        label: compose-for-redis
+        plan: Standard
 
 applications:
 - name: movie-recommend-demo
