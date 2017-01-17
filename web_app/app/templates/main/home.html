@@ -18,27 +18,41 @@
         <li><a href="{{ url_for('main.recommendations') }}">Get Recommendations</a> for movies</li>
     </ul>
     <p><b>NOTE:</b> The goal of this webapp is to show Apache Spark Machine Learning. Therefore, some functionality is missing and it doesn't have the polish that you would expect from a commercial movie recommendation web site.</p>
+
+    <h2>Running your own demo instance</h2>
+
     <p><a href="https://bluemix.net/deploy?repository=https://github.com/snowch/movie-recommender-demo.git"><img src="https://bluemix.net/deploy/button.png" alt="Deploy to Bluemix"></a>
-    &nbsp;You can deploy your own instance of this web application (plus Cloudant and Compose Redis). Click on the link and follow the instructions.</p>
+    &nbsp;You can deploy your own instance of this web application (plus Cloudant and Compose Redis). Click on the button and follow the instructions.</p>
+    <p>After deploying to Bluemix, you will need to create a new <a href="http://datascience.ibm.com">DSX</a> project and import the notebooks (see the Source Code section below).  The notebook <em>Step 07 - Cloudant Datastore Recommender.ipynb</em> is responsible for creating recommendations and saving the recommendations to Cloudant.  You will not get recommendations until you have run this notebook.</p>
+
     <h2>Technologies</h2>
     <p>The technologies used in this demo are:</p>
-    <img alt="Overall Architecture" src="{{ url_for('static', filename='movie-recommender-demo.png') }}" width="30%">
+    <br/>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <img alt="Overall Architecture" src="{{ url_for('static', filename='movie-recommender-demo.png') }}" width="100%">
+        </div>
+        <div class="col-sm-8">
+            <ul>
+                <li>Python flask application (this application)</li>
+                <li>IBM Bluemix for hosting the web application and services</li> 
+                <li>IBM Cloudant NoSQL for storing movies, ratings, user accounts and recommendations</li>
+                <li>IBM Compose Redis for maintaining an Atomic Increment counter for ID fields for user accounts</li>
+                <li>IBM Datascience Experience (DSX) and Spark as a Service for:</li>
+                   <ul>
+                       <li>Exploring data and analysing ratings</li>
+                       <li>Training and testing a recommendation model</li>
+                       <li>Retraining recommendation model hourly (DSX Scheduled Job)</li>
+                       <li>Generating recommendations and saving to Cloudant</li>
+                   </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <br/>
     <br/>
-    <ul>
-        <li>Python flask application (this application)</li>
-        <li>IBM Bluemix for hosting the web application and services</li> 
-        <li>IBM Cloudant NoSQL for storing movies, ratings, user accounts and recommendations</li>
-        <li>IBM Compose Redis for maintaining an Atomic Increment counter for ID fields for user accounts</li>
-        <li>IBM Datascience Experience (DSX) and Spark as a Service for:</li>
-           <ul>
-               <li>Exploring data and analysing ratings</li>
-               <li>Training and testing a recommendation model</li>
-               <li>Retraining recommendation model hourly (DSX Scheduled Job)</li>
-               <li>Generating recommendations and saving to Cloudant</li>
-           </ul>
-        </li>
-    </ul>
     
     <h2>Source Code</h2>
     <p>The source code for the web application and the jupyter notebooks are available in github: <a href="https://github.com/snowch/movie-recommender-demo/">here</a></p>
