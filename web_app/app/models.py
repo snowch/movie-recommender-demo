@@ -99,7 +99,7 @@ class Recommendation:
             recommendation_type = "REALTIME"
 
         # convert ratings to string with 2DP
-        ratings = [ '{0:.2f}'.format(r) for r in ratings ]
+        ratings = [ str(r) for r in ratings ]
 
         # we have the movie_ids, let's get the movie names
         recommendations = {}

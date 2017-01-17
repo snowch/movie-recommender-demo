@@ -41,7 +41,7 @@
       <tr>
           <td>{{ recommendation.movie_id }}</td>
           <td>{{ recommendation.movie_name }}</td>
-          <td>{{ recommendation.rating }}</td>
+          <td>{{ '{0:.2f}'.format(recommendation.rating|float) }}</td>
       </tr>
       {% endfor %}
       </tbody>
