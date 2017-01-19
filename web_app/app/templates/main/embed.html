@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    {{ super() }}
+    {{ js_resources|indent(4)|safe }}
+
+    {{ css_resources|indent(4)|safe }}
+
+    {{ plot_script|indent(4)|safe }}
+{% endblock %}
+
+{% block title %}Movie recommender{% endblock %}
+
+{% block page_content %}
+
+    <!-- A simple form for changing the graph -->
+    <p> Select your settings: </p>
+    <form name="color_button" method='GET'>
+        Color:
+        <select name="color">
+            <option value="Red">Red</option>
+            <option value="Green">Green</option>
+            <option value="Blue">Blue</option>
+            <option selected="selected" value="Black">Black</option>
+        </select>
+        <br>
+        From:
+        <input type="text" name="_from" value="{{ _from }}">
+        <br>
+        To:
+        <input type="text" name="to" value="{{ to }}">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    {{ plot_div|indent(4)|safe }}
+    <p> Demonstrates some very simple embedding into a webpage</p>
+
+{% endblock %}
