@@ -55,6 +55,8 @@ The screenshot below shows movie recommendations provided by Spark machine learn
 
 Click on this link, then follow the instructions.  Note that this step may take quite a long time (maybe 30 minutes).
 
+ - **CAUTION:** a python flask application instance with 128MB memory and an instance of Cloudant 'Lite' and an instance of Compose for Redis 'Standard' will get deployed in your Bluemix account - you may get charged for these services.  Please check charges before deploying.
+
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/snowch/movie-recommender-demo.git)
 
 An instance of Cloudant, Compose Redis and the Flask web application will be set up for you.
