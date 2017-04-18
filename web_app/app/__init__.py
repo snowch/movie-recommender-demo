@@ -7,6 +7,10 @@ from flask_moment import Moment
 
 
 app = Flask(__name__)
+
+# see https://github.com/snowch/movie-recommender-demo/issues/2
+app.session_cookie_name = 'JSESSIONID'
+
 sslify = SSLify(app)
 moment = Moment(app)
 
