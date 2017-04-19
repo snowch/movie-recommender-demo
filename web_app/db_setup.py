@@ -69,26 +69,10 @@ def md5(fname):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
-def download_movie_data():
-    zip_filename = 'ml-1m.zip'
-
-    if os.path.isfile(zip_filename) and md5(zip_filename) == 'c4d9eecfca2ab87c1945afe126590906':
-        print("Skipping download of ml-1m.zip as it already exists") 
-    else:
-        print("Downloading ml-1m.zip")
-        import urllib.request
-        url = 'http://files.grouplens.org/datasets/movielens/ml-1m.zip'
-        urllib.request.urlretrieve(url, zip_filename)
-
-    import zipfile
-    with zipfile.ZipFile(zip_filename,"r") as zip_ref:
-        zip_ref.extractall()
 
 def populate_movie_db():
 
-    movie_file = 'ml-1m/movies.dat'
-    if not os.path.isfile(movie_file):
-        download_movie_data()
+    movie_file = 'data/movies.dat'
     
     movie_db = cloudant_client[CL_MOVIEDB]
 
@@ -109,9 +93,7 @@ def populate_movie_db():
 
 def populate_rating_db():
 
-    rating_file = 'ml-1m/ratings.dat'
-    if not os.path.isfile(rating_file):
-        download_movie_data()
+    rating_file = 'data/ratings.dat'
     
     rating_db = cloudant_client[CL_RATINGDB]
 
