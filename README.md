@@ -6,7 +6,7 @@ This project walks through how you can create recommendations using Apache Spark
 
 If you want to try out a live demo of the web application, visit [here](https://movie-recommend-demo.mybluemix.net/).  This is also an overview video on [YouTube](https://www.youtube.com/watch?v=is9ZzgbGSdM).
 
-This project is a demo movie recommender application. This demo has been installed with approximately four thousand movies and one million ratings from the [MovieLens 1M Dataset](http://grouplens.org/datasets/movielens/1m/). The purpose of this web application is to allow users to search for movies, rate movies, and receive recommendations for movies based on their ratings.
+This project is a demo movie recommender application. This demo has been installed with approximately four thousand movies and 500,000 ratings. The ratings have been generated randomly. The purpose of this web application is to allow users to search for movies, rate movies, and receive recommendations for movies based on their ratings.
 
 ## Notebooks
 
