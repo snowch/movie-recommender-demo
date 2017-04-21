@@ -66,7 +66,7 @@ with open('ratings.dat', 'w') as file_handler:
         
         for movie_id in movie_ids:
         
-            rating = random.randrange(1, 5)
+            rating = random.randrange(1, 6)
             
             file_handler.write("{}::{}::{}::N/A\n".format(
                     user_id, 
