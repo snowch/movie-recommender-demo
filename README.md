@@ -32,7 +32,7 @@ The technologies used in this demo are:
 The overall architecture looks like this:
 
 <p align="center">
-<img alt="Overall Architecture" src="./docs/movie-recommender-demo.png" width="50%">
+<img alt="Overall Architecture" src="./docs/overview_application_architecture.png" width="50%">
 </p>
 
 ## Web application screenshots 
