@@ -30,27 +30,7 @@
     <p>The technologies used in this demo are:</p>
     <br/>
 
-    <div class="row">
-        <div class="col-sm-4">
-            <img alt="Overall Architecture" src="{{ url_for('static', filename='movie-recommender-demo.png') }}" width="100%">
-        </div>
-        <div class="col-sm-8">
-            <ul>
-                <li>Python flask application (this application)</li>
-                <li>IBM Bluemix for hosting the web application and services</li> 
-                <li>IBM Cloudant NoSQL for storing movies, ratings, user accounts and recommendations</li>
-                <li>IBM Compose Redis for maintaining an Atomic Increment counter for ID fields for user accounts</li>
-                <li>IBM Datascience Experience (DSX) and Spark as a Service for:</li>
-                   <ul>
-                       <li>Exploring data and analysing ratings</li>
-                       <li>Training and testing a recommendation model</li>
-                       <li>Retraining recommendation model hourly (DSX Scheduled Job)</li>
-                       <li>Generating recommendations and saving to Cloudant</li>
-                   </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <img alt="Overall Architecture" src="{{ url_for('static', filename='movie-recommender-demo.png') }}" width="75%">
 
     <br/>
     <br/>
