@@ -3,10 +3,6 @@ __pycache__/
 
 *.swp
 
-# downloaded data is not licensed to redistribute
-ml-1m.zip
-ml-1m/
-
 # vcap files with credentials in them!
 redis_vcap.json
 cloudant_vcap.json
