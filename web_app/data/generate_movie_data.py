@@ -81,16 +81,33 @@ with open('ratings.dat', 'w') as file_handler:
     for user_id in range(1, num_users):
         
         movie_ids = [random.randrange(min_movie_id, max_movie_id) for _ in range(num_ratings_per_user_min, num_ratings_per_user_max)]
+
+        user_bias = random.randrange(1, 100)
         
         for movie_id in movie_ids:
-        
-            rating = get_rating(movie_id)
-            
-            file_handler.write("{}::{}::{}::N/A\n".format(
-                    user_id, 
-                    movie_id,
-                    rating
-                ))
+       
+            if user_bias < 10:
+                # 10% of users rate low
+                rating = random.randrange(1, 3)
+
+            elif user_bias >= 10 and user_bias < 20:
+                # 10% of users rate high
+                rating = random.randrange(3, 6)
+
+            elif user_bias >= 20 and user_bias < 30:
+                # 10% of users rate don't rate at all
+                rating = -1
+
+            else:
+                # the rest rate according to taste
+                rating = get_rating(movie_id)
+           
+            if rating > 0:
+                file_handler.write("{}::{}::{}::N/A\n".format(
+                        user_id, 
+                        movie_id,
+                        rating
+                    ))
 
 
 # In[ ]:
