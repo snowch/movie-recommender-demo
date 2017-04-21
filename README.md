@@ -10,7 +10,7 @@ This project is a demo movie recommender application. This demo has been install
 
 ## Notebooks
 
-Start with [Step 00 - Project Overview](./Step 00 - Project Overview.ipynb) to read more about this project.
+Start with [Introduction](./notebooks/Introduction.ipynb) to read more about this project.
 
 You can import these notebooks into IBM Data Science Experience.  I  have occasionally experienced issues when trying to load from a URL.  If that happens to you, try cloning or downloading this repo and importing the notebooks as files.
 
