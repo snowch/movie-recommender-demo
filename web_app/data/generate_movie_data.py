@@ -55,6 +55,24 @@ min_movie_id = 1
 max_movie_id = film_id
 
 
+import hashlib
+import re
+import random
+
+# generate biased ratings
+def get_rating(film_id):
+    h = hashlib.md5(str(film_id).encode('utf-8')).hexdigest()
+
+    m = re.search("[012345]", h)
+    digit = int(h[m.start()])
+    if digit == 3:
+        rating = random.randrange(1, 3)
+    else:
+        rating = random.randrange(3, 6)
+    return rating
+
+
+
 # ok, do it ...
 
 import random
@@ -66,7 +84,7 @@ with open('ratings.dat', 'w') as file_handler:
         
         for movie_id in movie_ids:
         
-            rating = random.randrange(1, 6)
+            rating = get_rating(movie_id)
             
             file_handler.write("{}::{}::{}::N/A\n".format(
                     user_id, 
