@@ -79,12 +79,12 @@ def populate_movie_db():
     bulk_docs = []
     with open(movie_file, 'r', encoding='ISO-8859-1') as f:
         for line in f:
-            (movieid, moviename, category) = line.strip().split('::')
+            (movieid, moviename, url) = line.strip().split('::')
 
             bulk_docs.append({
                 '_id': movieid,
                 'name': moviename,
-                'categories': [category.split('|')]
+                'url': url
                 })
 
     resp = movie_db.bulk_docs(bulk_docs)
