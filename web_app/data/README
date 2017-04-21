@@ -1,2 +1,1 @@
-The movies.dat dataset is generated with the GetFilmNames.ipynb jupyter notebook.
-The ratings.dat dataset is generate with the MakeRatings.ipynb jupyter notebook.
+The movies.dat and ratings.dat datasets are generated with generate_movie_data.py
