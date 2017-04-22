@@ -79,8 +79,8 @@ cf push
  - create an account in the webapp
  - rate some movies
  - create a new DSX project, then
-   - upload the [Step 05 - Install Spark Cloudant](../notebooks/Step 05 - Install Spark Cloudant.ipynb) notebook to DSX
-   - run the `Step 05 - Install Cloudant Python` notebook 
+   - upload the [Step 06 - Install Spark Cloudant](../notebooks/Step 06 - Install Spark Cloudant.ipynb) notebook to DSX
+   - run the `Step 06 - Install Cloudant Python` notebook 
    - upload the [Step 07 - Cloudant Datastore Recommender](../notebooks/Step 07 - Cloudant Datastore Recommender.ipynb) notebook to DSX
    - follow the instructions in the notebook to setup the cloudant_credentials.json file
    - click: Cell -> run all
