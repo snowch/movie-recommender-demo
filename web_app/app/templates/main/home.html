@@ -19,12 +19,6 @@
     </ul>
     <p><b>NOTE:</b> The goal of this webapp is to show Apache Spark Machine Learning. Therefore, some functionality is missing and it doesn't have the polish that you would expect from a commercial movie recommendation web site.</p>
 
-    <h2>Running your own demo instance</h2>
-
-    <p><a href="https://bluemix.net/deploy?repository=https://github.com/snowch/movie-recommender-demo.git"><img src="https://bluemix.net/deploy/button.png" alt="Deploy to Bluemix"></a>
-    &nbsp;You can deploy your own instance of this web application (plus Cloudant and Compose Redis). Click on the button and follow the instructions. 
-        <em>CAUTION: a python flask application instance with 128MB memory and an instance of Cloudant 'Lite' and an instance of Compose for Redis 'Standard' will get deployed in your Bluemix account - you may get charged for these services.  Please check charges before deploying.</em></p>
-    <p>After deploying to Bluemix, you will need to create a new <a href="http://datascience.ibm.com">DSX</a> project and import the notebooks (see the Source Code section below).  The notebook <em>Step 07 - Cloudant Datastore Recommender.ipynb</em> is responsible for creating recommendations and saving the recommendations to Cloudant.  You will not get recommendations until you have run this notebook.</p>
 
     <h2>Technologies</h2>
     <p>The technologies used in this demo are:</p>
@@ -37,8 +31,9 @@
     
     <h2>Source Code</h2>
     <p>The source code for the web application and the jupyter notebooks are available in github: <a href="https://github.com/snowch/movie-recommender-demo/">here</a></p>
-    <br/>
-    <br/>
-    <br/>
+
+    <h2>Running your own demo instance</h2>
+
+    <p>If you would like to deploy your own instance of this demo using your own unique url, please follow the instructions in the github project.
 
 {% endblock %}
