@@ -55,11 +55,11 @@ The screenshot below shows movie recommendations provided by Spark machine learn
 
 Click on this link, then follow the instructions.  Note that this step may take quite a long time (maybe 30 minutes).
 
- - **CAUTION:** a python flask application instance with 128MB memory and an instance of Cloudant 'Lite' and an instance of Compose for Redis 'Standard' will get deployed in your Bluemix account - you may get charged for these services.  Please check charges before deploying.
+ - **CAUTION:** a python flask application instance with 128MB memory and an instance of Cloudant 'Lite' - you may get charged for these services.  Please check charges before deploying.  Note that Redis does not get deployed by default.
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/snowch/movie-recommender-demo.git)
 
-An instance of Cloudant, Compose Redis and the Flask web application will be set up for you.
+An instance of Cloudant and the Flask web application will be set up for you.
 
 After deploying to Bluemix, you will need to create a new [DSX](http://datascience.ibm.com) project and import the notebooks.  The notebook [Step 07 - Cloudant Datastore Recommender.ipynb](./Step 07 - Cloudant Datastore Recommender.ipynb) is responsible for creating recommendations and saving them to Cloudant.  You will not get recommendations until you have setup this notebook with your Cloudant credentials and run the notebook from DSX.
 
