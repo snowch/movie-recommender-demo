@@ -94,11 +94,11 @@ class MovieDAO:
 class RatingDAO:
 
     @staticmethod
-    def get_ratings(user_id: int, movie_ids: List[int] = None) -> Dict[int, float]:
+    def get_ratings(user_id: str, movie_ids: List[int] = None) -> Dict[int, float]:
         """Retrieve user's rated movies.
 
         Args:
-            user_id         (int): The user_id whose movie ratings you require. 
+            user_id         (str): The user_id whose movie ratings you require. 
             movie_ids (List[int]): If a list of movie_ids is provided, only return a rating
                                    if it is for a movie in this list.
 
@@ -136,12 +136,12 @@ class RatingDAO:
         return ratings
 
     @staticmethod
-    def save_rating(movie_id: int, user_id: int, rating: Optional[float]):
+    def save_rating(movie_id: int, user_id: str, rating: Optional[float]):
         """Save user's rated movie
 
         Args:
             movie_ids (int):             The movie id that was rated
-            user_ids  (int):             The user id rating the movie
+            user_ids  (str):             The user id rating the movie
             rating    (Optional[float]): The movie rating
 
         If the rating argument is not None:
@@ -349,7 +349,7 @@ class UserDAO:
         return user_dict
 
     @staticmethod
-    def create_user(email: str, password_hash: str) -> int:
+    def create_user(email: str, password_hash: str) -> str:
         """Create new user
 
         Args:
@@ -357,25 +357,29 @@ class UserDAO:
             password_hash (str): The user's password_hash
 
         Returns:
-            int: The generated user id for the new user
+            str: The generated user id for the new user
         """
 
         db = cloudant_client[CL_AUTHDB]
 
-        # Spark ALS requires user id's to be integers, and because
-        # Cloudant does not have atomic incrementing integer fields,
-        # we use Redis
-
-        from app.redis_db import get_next_user_id
-        id = get_next_user_id()
-
-        data = { 
-            "_id"           : str(id),
-            "email"         : email,
-            "password_hash" : password_hash
-        }
+        if app.config['REDIS_ENABLED'] == True:
+            from app.redis_db import get_next_user_id
+            id = get_next_user_id()
+            data = { 
+                "_id"           : str(id),
+                "email"         : email,
+                "password_hash" : password_hash
+            }
+        else:
+            # allow cloudant to generate a uuid
+            data = { 
+                "email"         : email,
+                "password_hash" : password_hash
+            }
         doc = db.create_document(data)
 
         if not doc.exists():
             raise BaseException("Coud not save user: " + data)
+
+        return doc['_id']
 

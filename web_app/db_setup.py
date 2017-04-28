@@ -135,7 +135,8 @@ def populate_rating_db():
             else:
                 break
 
-    set_next_user_id(max_user_id + 1)
+    if app.config['REDIS_ENABLED'] == True:
+        set_next_user_id(max_user_id + 1)
 
 def create_latest_recommendations_index():
 

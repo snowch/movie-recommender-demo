@@ -31,8 +31,13 @@ class Config:
 
     # Redis details
 
-    redis_credentials = vcap['compose-for-redis'][0]['credentials']
-    REDIS_URI = redis_credentials['uri']
+    try:
+        redis_credentials = vcap['compose-for-redis'][0]['credentials']
+        REDIS_URI = redis_credentials['uri']
+        REDIS_ENABLED = True
+    except:
+        REDIS_ENABLED = False
+        print("Redis configuration not found in VCAP services")
     
     @staticmethod
     def init_app(app):

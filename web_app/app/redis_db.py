@@ -3,7 +3,8 @@ import atexit
 import redis
 from . import app
 
-redis = redis.StrictRedis.from_url(app.config['REDIS_URI'])
+if app.config['REDIS_ENABLED'] == True:
+    redis = redis.StrictRedis.from_url(app.config['REDIS_URI'])
 
 def get_next_user_id():
     return redis.hincrby('app_ids', 'user_id')

@@ -121,12 +121,12 @@ class Rating:
 
     @staticmethod
     def get_ratings(user_id):
-        return RatingDAO.get_ratings(int(user_id))
+        return RatingDAO.get_ratings(user_id)
 
     @staticmethod
     def save_rating(movie_id, user_id, rating):
         RatingDAO.save_rating(
-                int(movie_id), int(user_id), rating
+                int(movie_id), user_id, rating
                 )
 
 class Movie:
