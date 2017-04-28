@@ -19,9 +19,14 @@ pip3.5 install -r requirements.txt
 
 #### Configure Cloudant and Redis
 
- - Create a Cloudant and Redis service in Bluemix.
+ - Create a Cloudant service in Bluemix.
  - Create the file etc/cloudant_vcap.json (see cloudant_vcap.json_template)
+ 
+ Optional:
+ 
+ - Create a Redis service in Bluemix.
  - Create the file etc/redis_vcap.json (see redis.json_template)
+ - Edit manifest.yml to uncomment the redis configuration
 
 
 #### Setup the databases
@@ -30,10 +35,22 @@ pip3.5 install -r requirements.txt
 ./run.sh db_all
 ```
 
+or
+
+```
+./run_with_redis.sh db_all
+```
+
 ### Run locally
 
 ```
 ./run.sh
+```
+
+or
+
+```
+./run_with_redis.sh
 ```
 
 You should see a URL output:
