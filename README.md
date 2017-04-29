@@ -21,7 +21,7 @@ The technologies used in this demo are:
  - Python flask application
  - IBM Bluemix for hosting the web application and services
  - IBM Cloudant NoSQL for storing movies, ratings, user accounts and recommendations
- - IBM Compose Redis for maintaining an Atomic Increment counter for ID fields for user accounts
+ - IBM Compose Redis for maintaining an Atomic Increment counter for ID fields for user accounts (this is now optional as Cloudant UUIDs can be used)
  - IBM Datascience Experience (DSX) and Spark as a Service for:
     - exploring data and analysing ratings
     - training and testing a recommendation model
