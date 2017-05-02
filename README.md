@@ -61,7 +61,7 @@ Click on this link, then follow the instructions.  Note that this step may take 
 
 An instance of Cloudant and the Flask web application will be set up for you.
 
-After deploying to Bluemix, you will need to create a new [DSX](http://datascience.ibm.com) project and import the notebooks.  The notebook [Step 07 - Cloudant Datastore Recommender.ipynb](./notebooks/Step 07 - Cloudant Datastore Recommender.ipynb) is responsible for creating recommendations and saving them to Cloudant.  You will not get recommendations until you have setup this notebook with your Cloudant credentials and run the notebook from DSX.
+After deploying to Bluemix, you will need to create a new [DSX](http://datascience.ibm.com) project and import the notebooks.  The notebook [Step 07](./notebooks/Step%2007%20-%20Cloudant%20Datastore%20Recommender.ipynb) is responsible for creating recommendations and saving them to Cloudant.  You will not get recommendations until you have setup this notebook with your Cloudant credentials and run the notebook from DSX.
 
 ### Deploy using cf tools
 
