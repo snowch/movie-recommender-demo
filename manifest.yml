@@ -3,9 +3,9 @@ declared-services:
         label: cloudantNoSQLDB 
         plan: Lite 
 
-    my_redis: 
-        label: compose-for-redis
-        plan: Standard
+#    my_redis: 
+#       label: compose-for-redis
+#       plan: Standard
 
 applications:
 - name: movie-recommend-demo
@@ -15,7 +15,8 @@ applications:
   path: web_app
   services:
   - my_cloudant
-  - my_redis
+# - my_redis
+  
   # allow 3 minutes to start the application 
   # when we use deploy to bluemix, the db's get
   # created and populated on the fly
