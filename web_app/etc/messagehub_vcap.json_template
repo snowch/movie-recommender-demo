@@ -1,0 +1,17 @@
+  "messagehub": [
+   {
+    "credentials": {
+     "api_key": "changeme",
+     "kafka_admin_url": "changeme",
+     "kafka_brokers_sasl": [
+      "changeme",
+      "changeme",
+      "changeme",
+      "changeme",
+      "changeme"
+     ],
+     "password": "changeme",
+     "user": "changeme"
+    }
+   }
+  ]

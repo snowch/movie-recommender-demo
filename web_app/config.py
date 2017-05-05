@@ -37,8 +37,24 @@ class Config:
         REDIS_ENABLED = True
     except:
         REDIS_ENABLED = False
-        print("Redis configuration not found in VCAP services")
+        print("Redis configuration not found in VCAP services. Running without Redis.")
+
+    # Messagehub details
     
+    try:
+        messagehub_credentials = vcap['messagehub'][0]['credentials']
+        MESSAGEHUB_ENABLED = True
+        KAFKA_ADMIN_URL = messagehub_credentials['kafka_admin_url']
+        KAFKA_API_KEY = messagehub_credentials['api_key']
+        KAFKA_BROKERS_SASL = messagehub_credentials['kafka_brokers_sasl'] 
+        KAFKA_USERNAME = messagehub_credentials['user'] 
+        KAFKA_PASSWORD = messagehub_credentials['password']
+        KAFKA_TOPIC = 'movie_ratings'
+    except:
+        MESSAGEHUB_ENABLED = False
+        print("MessageHub configuration not found in VCAP services. Running without MessageHub.")
+
+
     @staticmethod
     def init_app(app):
         pass
