@@ -7,3 +7,5 @@
 vcap.json
 bi_connection.properties
 .gradle/
+build/
+*.swp
