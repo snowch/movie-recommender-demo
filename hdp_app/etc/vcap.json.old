@@ -1,0 +1,14 @@
+{
+  "api_key": "bpyCprMeLfavhUmQHcCYPE2IMRZ0CjVX8kpCH4F9tZ6TP09R",
+  "kafka_rest_url": "https://kafka-rest-prod01.messagehub.services.us-south.bluemix.net:443",
+  "kafka_brokers_sasl": [
+    "kafka05-prod01.messagehub.services.us-south.bluemix.net:9093",
+    "kafka03-prod01.messagehub.services.us-south.bluemix.net:9093",
+    "kafka04-prod01.messagehub.services.us-south.bluemix.net:9093",
+    "kafka01-prod01.messagehub.services.us-south.bluemix.net:9093",
+    "kafka02-prod01.messagehub.services.us-south.bluemix.net:9093"
+  ],
+  "user": "bpyCprMeLfavhUmQ",
+  "password": "HcCYPE2IMRZ0CjVX8kpCH4F9tZ6TP09R",
+  "topic": "mytopic"
+}

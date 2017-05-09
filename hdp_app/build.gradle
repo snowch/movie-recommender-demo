@@ -1,0 +1,178 @@
+plugins {
+  id 'org.hidetake.ssh' version '1.5.0'
+
+  // required to build scala example
+  id 'scala'
+
+  // useful for working on scala example
+  id 'eclipse'
+
+  // we need a fat jar
+  id "com.github.johnrengelman.shadow" version "1.2.3"
+}
+
+// set the dependencies for compiling the groovy script
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	// required to build the spark example
+	compile 'org.scala-lang:scala-library:2.10'
+    compile 'org.apache.spark:spark-core_2.10:1.6.2'
+    compile 'org.apache.spark:spark-streaming_2.10:1.6.2'
+    compile 'org.apache.kafka:kafka_2.10:0.9.0.0'
+    compile 'org.apache.kafka:kafka-clients:0.9.0.0'
+    compile 'org.apache.kafka:kafka-log4j-appender:0.9.0.0'
+    compile files('libs/messagehub.login-1.0.0.jar')
+}
+
+// get the cluster connection details
+Properties props = new Properties()
+props.load(new FileInputStream("$projectDir/etc/bi_connection.properties"))
+
+def jsonFile = file('etc/vcap.json')
+def mhProps = new groovy.json.JsonSlurper().parseText(jsonFile.text)
+
+// setup the connection details for ssh
+remotes {
+    bicluster {
+       host = props.hostname
+       user = props.username
+       password = props.password
+    }
+}
+
+ssh.settings {
+    if (props.known_hosts == 'allowAnyHosts') {
+        // disable ssh host key verification 
+        knownHosts = allowAnyHosts
+    }
+}
+
+
+
+task SubmitToYarn {
+
+    delete "${buildDir}"
+
+    dependsOn shadowJar
+
+    doLast {
+
+        def tmpDir = "test-${new Date().getTime()}"
+
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        
+        ssh.run {
+            // remotes.bicluster is defined in shared/common-helpers.gradle
+            session(remotes.bicluster) {
+
+                try {
+                    // initialise kerberos
+                    execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
+                } 
+                catch (Exception e) {
+                    println "problem running kinit - maybe this is a Basic cluster?"
+                }
+
+
+                def psCmd = "yarn application -list 2>/dev/null | grep 'biginsights.examples.MessageHubConsumer' | awk '{print \$1}'"
+
+                def application_ids = execute psCmd
+                if (application_ids.size() > 0) {
+                    throw new GradleException("ERROR:  ** Found yarn application already running.  Kill other applications with `./gradlew KillAll` **")
+                }
+
+
+
+                // create temp local dir for holding LICENSE file before uploading it to hdfs
+                execute "mkdir ${tmpDir}"
+
+                println "Uploading SparkMessageHubScala-all.jar to cluster - this may take some time"
+
+                // upload spark script and text file to process
+                put from: "${projectDir}/build/libs/SparkMessageHubScalaYarn-all.jar", 
+                    into: "${tmpDir}/SparkMessageHubScalaYarn-all.jar"
+
+                println "Finished Uploading SparkMessageHubScalaYarn-all.jar"
+
+                def clz = "--class \"biginsights.examples.MessageHubConsumer\""
+
+                // FIXME! we are passing passwords as command line arguments which will be visible
+                //        to other users.  We could probably bundle the properties in the jar file
+                //        and the app read them from there.
+
+                def kafka_brokers = "${mhProps.kafka_brokers_sasl}".minus('[').minus(']').replaceAll(/\s*/, "")
+
+                def args = "--conf spark.driver.args=\"${kafka_brokers} ${mhProps.user} ${mhProps.password} ${mhProps.api_key} ${mhProps.kafka_rest_url} ${mhProps.topic} ${props.username}\""
+
+                def cmd = "spark-submit ${args} --master yarn --deploy-mode cluster --num-executors 3 --executor-cores 1 --executor-memory 1G ${clz} ${tmpDir}/SparkMessageHubScalaYarn-all.jar > /dev/null 2>&1 &"
+
+                println "Running: ${cmd}"
+                execute cmd
+            }
+        }
+    }
+}
+
+task PsAll {
+
+    doLast {
+
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        
+        ssh.run {
+            // remotes.bicluster is defined in shared/common-helpers.gradle
+            session(remotes.bicluster) {
+                def cmd = "yarn application -list 2>/dev/null | grep 'biginsights.examples.MessageHubConsumer' || echo 'No yarn examples running with ID biginsights.examples.MessageHubConsumer'"
+                execute cmd
+            }
+        }
+    }
+}
+
+task KillAll {
+
+    doLast {
+
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        
+        ssh.run {
+            // remotes.bicluster is defined in shared/common-helpers.gradle
+            session(remotes.bicluster) {
+
+                def cmd = "yarn application -list 2>/dev/null | grep 'biginsights.examples.MessageHubConsumer' | awk '{print \$1}'"
+
+                def application_ids = execute cmd
+
+                if (application_ids.size() > 0) {
+                    application_ids.split('\n').each { appId ->
+                        try {
+                            execute "yarn application -kill ${appId}"
+                        } catch (Exception e) {
+                            println "Ignoring error from kill command"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+task CatHdfs {
+
+    doLast {
+
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        
+        ssh.run {
+            // remotes.bicluster is defined in shared/common-helpers.gradle
+            session(remotes.bicluster) {
+                def cmd = 'hdfs dfs -cat /user/$USER/test*/*'
+
+                execute cmd
+            }
+        }
+    }
+}
