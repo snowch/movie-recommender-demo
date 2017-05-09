@@ -9,3 +9,4 @@ bi_connection.properties
 .gradle/
 build/
 *.swp
+bin/

@@ -50,11 +50,11 @@ ssh.settings {
     }
 }
 
+shadowJar.archiveName = 'SparkMessageHubScalaYarn-all.jar'
 
+delete "./build"
 
 task SubmitToYarn {
-
-    delete "${buildDir}"
 
     dependsOn shadowJar
 
