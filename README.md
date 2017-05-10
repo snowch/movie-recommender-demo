@@ -57,7 +57,7 @@ The screenshot below shows movie recommendations provided by Spark machine learn
 
 Click on this link, then follow the instructions.  Note that this step may take quite a long time (maybe 30 minutes).
 
- - **CAUTION:** a python flask application instance with 128MB memory and an instance of Cloudant 'Lite' - you may get charged for these services.  Please check charges before deploying.  Note that Redis and Message Hub and BigInsights do not get deployed by default.  If you wish to deploy the solution with these options, follow the instructions [here](./MANUAL_INSTALLATON.md)
+ - **CAUTION:** a python flask application instance with 128MB memory and an instance of Cloudant 'Lite' - you may get charged for these services.  Please check charges before deploying.  Note that Redis and Message Hub and BigInsights do not get deployed by default.  If you wish to deploy the solution with these options, follow the instructions [here](./MANUAL_INSTALLATION.md)
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/snowch/movie-recommender-demo.git)
 
