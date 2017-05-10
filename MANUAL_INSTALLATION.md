@@ -37,7 +37,7 @@ pip3.5 install -r requirements.txt
  
 #### Configure BigInsights (optional)
  
- - Create a BigInsights Basic service in Bluemix.
+ - Create a BigInsights Basic service in Bluemix.  Ensure you select Hive and Spark as optional components.
  - Create the file hdp_app/etc/vcap.json with your Message Hub details (see [hdp_app/etc/vcap.json_template](./hdp_app/etc/vcap.json_template) for an example)
  - Create the file hdp_app/etc/bi_connection.properties with your BigInsight details (see [hdp_app/etc/bi_connection.properties_template](./hdp_app/etc/bi_connection.properties_template) for an example)
  - Follow the steps in the [README](./hdp_app/README.md) to build and deploy the spark code
