@@ -68,3 +68,7 @@ After deploying to Bluemix, you will need to create a new [DSX](http://datascien
 ### Deploy using cf tools
 
 See the instructions [here](https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md)
+
+## Setting up your own BigInsights instance on Bluemix
+
+I will add instructions here.  Until then, please contact me (chris.snow at uk.ibm.com) for instructions.
