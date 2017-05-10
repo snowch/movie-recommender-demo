@@ -24,14 +24,14 @@ The overall architecture looks like this:
 
 The technologies used in this demo are:
 
-*Core components (Web Application)*
+**Core components (Web Application)**
 
  - Python flask application
  - IBM Bluemix for hosting the web application and services
  - IBM Cloudant NoSQL for storing movies, ratings, user accounts and recommendations
  - IBM Datascience Experience (DSX) and Spark as a Service
     
-*Optional components (Hadoop Warehouse)*
+**Optional components (Hadoop Warehouse)**
 
 The core demo can run without these components.
 
