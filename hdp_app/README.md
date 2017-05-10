@@ -26,3 +26,14 @@ To run the examples, in a command prompt window:
 
 When you have finished run `./gradlew KillAll` to kill the streaming example on the cluster.
 
+If you would like a more graphical connection to Hive, check out the BigInsights example project, and run the [SquirrelSQL](https://github.com/IBM-Bluemix/BigInsights-on-Apache-Hadoop/tree/master/examples/SquirrelSQL) example.
+
+You can try the query:
+
+```
+SET hive.mapred.supports.subdirectories=true; 
+SET mapred.input.dir.recursive=true; 
+select * from movie_ratings;
+```
+
+This query will return more and more data as ratings are added to the web application.  Note that the spark streaming job works in batches of 60 seconds so it may take a while for the ratings to get picked up by Hive.
