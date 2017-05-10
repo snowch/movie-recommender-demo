@@ -108,7 +108,7 @@ task SubmitToYarn {
                 execute cmd
                 
                 execute """hive -e 'drop table if exists movie_ratings;'"""
-                execute """hive -e "create external table movie_ratings ( customer_id string, movie_id string, rating double ) row format delimited fields terminated by ',' location '/user/\${USER}/movie-ratings';"""
+                execute """hive -e "create external table movie_ratings ( customer_id string, movie_id string, rating double ) row format delimited fields terminated by ',' location '/user/${props.username}/movie-ratings';" """
                 execute """hive -e 'select * from movie_ratings;'"""
             }
         }
