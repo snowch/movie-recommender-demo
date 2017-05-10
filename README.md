@@ -57,18 +57,8 @@ The screenshot below shows movie recommendations provided by Spark machine learn
 
 Click on this link, then follow the instructions.  Note that this step may take quite a long time (maybe 30 minutes).
 
- - **CAUTION:** a python flask application instance with 128MB memory and an instance of Cloudant 'Lite' - you may get charged for these services.  Please check charges before deploying.  Note that Redis does not get deployed by default.
+ - **CAUTION:** a python flask application instance with 128MB memory and an instance of Cloudant 'Lite' - you may get charged for these services.  Please check charges before deploying.  Note that Redis and Message Hub and BigInsights do not get deployed by default.  If you wish to deploy the solution with these options, follow the instructions [here](https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md)
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/snowch/movie-recommender-demo.git)
 
-An instance of Cloudant and the Flask web application will be set up for you.
-
 After deploying to Bluemix, you will need to create a new [DSX](http://datascience.ibm.com) project and import the notebooks.  The notebook [Step 07](./notebooks/Step%2007%20-%20Cloudant%20Datastore%20Recommender.ipynb) is responsible for creating recommendations and saving them to Cloudant.  You will not get recommendations until you have setup this notebook with your Cloudant credentials and run the notebook from DSX.
-
-### Deploy using cf tools
-
-See the instructions [here](https://github.com/snowch/movie-recommender-demo/blob/master/web_app/README.md)
-
-## Setting up your own BigInsights instance on Bluemix
-
-I will add instructions here.  Until then, please contact me (chris.snow at uk.ibm.com) for instructions.
