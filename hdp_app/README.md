@@ -19,6 +19,7 @@ To run the examples, in a command prompt window:
       - `gradlew.bat CatHdfs` (Windows)
    - next open a new terminal window and execute the python script, e.g.
       - `python send_message.py 12345`
+      - alternatively, if you are using this alongside the movie recommender web app and have configured the application to use messagehub, you can login as a user to create ratings and these will get picked up by BigInsights.
    - wait a minute or so, then run
       - `./gradlew CatHdfs` (OS X / *nix)
       - `gradlew.bat CatHdfs` (Windows)
