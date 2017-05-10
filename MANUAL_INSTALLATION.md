@@ -32,7 +32,7 @@ pip3.5 install -r requirements.txt
 #### Configure Redis (optional)
  
  - Create a Redis service in Bluemix.
- - Create the file web_app/etc/redis_vcap.json (see [web_app/etc/redis_vcap.json_template](./web_app/etc/cloudant_vcap.json_template) for an example)
+ - Create the file web_app/etc/redis_vcap.json (see [web_app/etc/redis_vcap.json_template](./web_app/etc/redis_vcap.json_template) for an example)
  - Edit manifest.yml to uncomment the redis configuration
  
 #### Configure BigInsights (optional)
