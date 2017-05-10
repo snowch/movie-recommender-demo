@@ -1,6 +1,6 @@
 ## Overview
 
-This project walks through how you can create recommendations using Apache Spark machine learning.  There are a number of jupyter notebooks that you can run on IBM Data Science Experience, and there a live demo of a movie recommendation web application you can interact with.  The demo also uses IBM MEessage Hub (kafka) to push application events to topic where they are consumed by a spark streaming job running on IBM BigInsights (hadoop).
+This project walks through how you can create recommendations using Apache Spark machine learning.  There are a number of jupyter notebooks that you can run on IBM Data Science Experience, and there a live demo of a movie recommendation web application you can interact with.  The demo also uses IBM Message Hub (kafka) to push application events to topic where they are consumed by a spark streaming job running on IBM BigInsights (hadoop).
 
 ## Quick start
 
