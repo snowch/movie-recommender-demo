@@ -40,12 +40,16 @@ object MessageHubConsumer{
       List(kafkaProps.getConfig("kafka.topic"))
       );
 
+    // This will create a file per output which is an anti-pattern in hadoop because
+    // hadoop is optimised for larger files.  A production implementation would probably
+    // need to periodically merge the small files into a larger file and delete the smaller
+    // files.  Example code snippet: http://stackoverflow.com/a/27127343/1033422
+    //
+    // Note that the hadoop-streaming.jar file can be found here:
+    //   /usr/iop/current/hadoop-mapreduce-client/hadoop-streaming.jar
     stream.foreachRDD{ rdd =>
-      // we only want to create a folder in hdfs if we have some data
       if (rdd.count() > 0) {
-        def uuid = java.util.UUID.randomUUID.toString
-        val outDir = s"hdfs:///user/${username}/test-${uuid}"
-        rdd.saveAsTextFile (outDir)
+        rdd.map(row => row._2).saveAsTextFile (s"hdfs:///user/${username}/movie-ratings")
       }
     }
 

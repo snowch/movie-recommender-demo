@@ -131,15 +131,7 @@ class Rating:
                 )
 
         if app.config['MESSAGEHUB_ENABLED'] == True:
-
-            messagehub_client.send_message(
-                json.dumps( {
-                        'Rating': { 
-                            'user_id': user_id,
-                            'movie_id': movie_id,
-                            'rating': rating
-                            }
-                    } ))
+            messagehub_client.send_message( '{0},{1},{2}'.format(user_id, movie_id, rating) )
 
 class Movie:
 

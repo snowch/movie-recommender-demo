@@ -55,17 +55,12 @@ shadowJar.archiveName = 'SparkMessageHubScalaYarn-all.jar'
 delete "./build"
 
 task SubmitToYarn {
-
     dependsOn shadowJar
-
     doLast {
-
-        def tmpDir = "test-${new Date().getTime()}"
+        def remoteProjectDir = "movie-ratings-ingest"
 
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
-        
         ssh.run {
-            // remotes.bicluster is defined in shared/common-helpers.gradle
             session(remotes.bicluster) {
 
                 try {
@@ -84,16 +79,16 @@ task SubmitToYarn {
                     throw new GradleException("ERROR:  ** Found yarn application already running.  Kill other applications with `./gradlew KillAll` **")
                 }
 
-
+                execute "rm -rf ${remoteProjectDir}"
 
                 // create temp local dir for holding LICENSE file before uploading it to hdfs
-                execute "mkdir ${tmpDir}"
+                execute "mkdir ${remoteProjectDir}"
 
                 println "Uploading SparkMessageHubScala-all.jar to cluster - this may take some time"
 
                 // upload spark script and text file to process
                 put from: "${projectDir}/build/libs/SparkMessageHubScalaYarn-all.jar", 
-                    into: "${tmpDir}/SparkMessageHubScalaYarn-all.jar"
+                    into: "${remoteProjectDir}/SparkMessageHubScalaYarn-all.jar"
 
                 println "Finished Uploading SparkMessageHubScalaYarn-all.jar"
 
@@ -107,23 +102,23 @@ task SubmitToYarn {
 
                 def args = "--conf spark.driver.args=\"${kafka_brokers} ${mhProps.user} ${mhProps.password} ${mhProps.api_key} ${mhProps.kafka_rest_url} ${mhProps.topic} ${props.username}\""
 
-                def cmd = "spark-submit ${args} --master yarn --deploy-mode cluster --num-executors 3 --executor-cores 1 --executor-memory 1G ${clz} ${tmpDir}/SparkMessageHubScalaYarn-all.jar > /dev/null 2>&1 &"
+                def cmd = "spark-submit ${args} --master yarn --deploy-mode cluster --num-executors 3 --executor-cores 1 --executor-memory 1G ${clz} ${remoteProjectDir}/SparkMessageHubScalaYarn-all.jar > /dev/null 2>&1 &"
 
                 println "Running: ${cmd}"
                 execute cmd
+                
+                execute """hive -e 'drop table if exists movie_ratings;'"""
+                execute """hive -e "create external table movie_ratings ( customer_id string, movie_id string, rating double ) row format delimited fields terminated by ',' location '/user/\${USER}/movie-ratings';"""
+                execute """hive -e 'select * from movie_ratings;'"""
             }
         }
     }
 }
 
 task PsAll {
-
     doLast {
-
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
-        
         ssh.run {
-            // remotes.bicluster is defined in shared/common-helpers.gradle
             session(remotes.bicluster) {
                 def cmd = "yarn application -list 2>/dev/null | grep 'biginsights.examples.MessageHubConsumer' || echo 'No yarn examples running with ID biginsights.examples.MessageHubConsumer'"
                 execute cmd
@@ -133,13 +128,9 @@ task PsAll {
 }
 
 task KillAll {
-
     doLast {
-
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
-        
         ssh.run {
-            // remotes.bicluster is defined in shared/common-helpers.gradle
             session(remotes.bicluster) {
 
                 def cmd = "yarn application -list 2>/dev/null | grep 'biginsights.examples.MessageHubConsumer' | awk '{print \$1}'"
@@ -161,17 +152,22 @@ task KillAll {
 }
 
 task CatHdfs {
-
     doLast {
-
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
-        
         ssh.run {
-            // remotes.bicluster is defined in shared/common-helpers.gradle
             session(remotes.bicluster) {
-                def cmd = 'hdfs dfs -cat /user/$USER/test*/*'
+                execute 'hdfs dfs -cat /user/$USER/movie-ratings/*'
+            }
+        }
+    }
+}
 
-                execute cmd
+task HiveSelect {
+    doLast {
+        // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
+        ssh.run {
+            session(remotes.bicluster) {
+                execute """hive -e 'select * from movie_ratings;'"""
             }
         }
     }
