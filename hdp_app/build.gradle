@@ -109,7 +109,7 @@ task SubmitToYarn {
                 
                 execute """hive -e 'drop table if exists movie_ratings;'"""
                 execute """hive -e "create external table movie_ratings ( customer_id string, movie_id string, rating double ) row format delimited fields terminated by ',' location '/user/${props.username}/movie-ratings';" """
-                execute """hive -e 'select * from movie_ratings;'"""
+                execute """hive -e 'SET hive.mapred.supports.subdirectories=true; SET mapred.input.dir.recursive=true; select * from movie_ratings;'"""
             }
         }
     }
@@ -156,7 +156,7 @@ task CatHdfs {
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
         ssh.run {
             session(remotes.bicluster) {
-                execute 'hdfs dfs -cat /user/$USER/movie-ratings/*'
+                execute 'hdfs dfs -cat /user/$USER/movie-ratings/*/*'
             }
         }
     }
@@ -167,7 +167,7 @@ task HiveSelect {
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
         ssh.run {
             session(remotes.bicluster) {
-                execute """hive -e 'select * from movie_ratings;'"""
+                execute """hive -e 'SET hive.mapred.supports.subdirectories=true; SET mapred.input.dir.recursive=true; select * from movie_ratings;'"""
             }
         }
     }

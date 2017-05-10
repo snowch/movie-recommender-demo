@@ -49,11 +49,12 @@ object MessageHubConsumer{
     //   /usr/iop/current/hadoop-mapreduce-client/hadoop-streaming.jar
     stream.foreachRDD{ rdd =>
       if (rdd.count() > 0) {
-        rdd.map(row => row._2).saveAsTextFile (s"hdfs:///user/${username}/movie-ratings")
+
+        // save each batch in it's own folder to prevent batches overwriting each other
+        val uuid = java.util.UUID.randomUUID.toString
+        rdd.map(row => row._2).saveAsTextFile (s"hdfs:///user/${username}/movie-ratings/${uuid}")
       }
     }
-
-    stream.print()
     ssc.start()
     ssc.awaitTermination()
   }

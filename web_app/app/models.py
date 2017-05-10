@@ -131,7 +131,9 @@ class Rating:
                 )
 
         if app.config['MESSAGEHUB_ENABLED'] == True:
-            messagehub_client.send_message( '{0},{1},{2}'.format(user_id, movie_id, rating) )
+            message = '{0},{1},{2}'.format(user_id, movie_id, rating)
+            messagehub_client.send_message( message )
+            print('Sent message to MessageHub', message)
 
 class Movie:
 
