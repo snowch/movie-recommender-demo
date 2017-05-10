@@ -6,8 +6,6 @@ This example shows how to execute a spark streaming example on the BigInsights c
 
 To run the examples, in a command prompt window:
 
-   - copy etc/vcap.json_template to vcap.json
-   - edit etc/vcap.json with your messagehub connection details
    - change into the directory containing this example and run gradle to execute the example
       - `./gradlew SubmitToYarn` (OS X / *nix)
       - `gradlew.bat SubmitToYarn` (Windows)
