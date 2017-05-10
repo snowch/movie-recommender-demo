@@ -25,7 +25,7 @@ pip3.5 install -r requirements.txt
 #### Configure Message Hub (optional)
  
  - Create a MessageHub service in Bluemix.
- - Create the file web_app/etc/messagehub_vcap.json (see [web_app/etc/messagehub_vcap.json_template](./web_app/etc/cloudant_vcap.json_template) for an example)
+ - Create the file web_app/etc/messagehub_vcap.json (see [web_app/etc/messagehub_vcap.json_template](./web_app/etc/messagehub_vcap.json_template) for an example)
  - Edit manifest.yml to uncomment the messagehub configuration
  - When the web application gets deployed, a topic 'movie_ratings' will be created for you
  
