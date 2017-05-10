@@ -22,6 +22,13 @@ pip3.5 install -r requirements.txt
  - Create a Cloudant service in Bluemix.
  - Create the file etc/cloudant_vcap.json (see cloudant_vcap.json_template)
  
+  Optional:
+ 
+ - Create a MessageHub service in Bluemix.
+ - Create the file etc/messagehub_vcap.json (see messagehub_vcap.json_template)
+ - Edit manifest.yml to uncomment the messagehub configuration
+ - When the web application gets deployed, a topic 'movie_ratings' will be created for you
+ 
  Optional:
  
  - Create a Redis service in Bluemix.
@@ -31,26 +38,16 @@ pip3.5 install -r requirements.txt
 
 #### Setup the databases
 
+This only needs to be performed once.
+
 ```
 ./run.sh db_all
-```
-
-or
-
-```
-./run_with_redis.sh db_all
 ```
 
 ### Run locally
 
 ```
 ./run.sh
-```
-
-or
-
-```
-./run_with_redis.sh
 ```
 
 You should see a URL output:
@@ -68,6 +65,7 @@ Open this to try out the webapp locally.
    - change the name of the services to reflect
      - your cloudant service name
      - your redis service name
+     - your message hub service name
 
 Then run:
 
