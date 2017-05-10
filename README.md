@@ -15,6 +15,12 @@ Start with [Introduction](./notebooks/Introduction.ipynb) to read more about thi
 You can import these notebooks into IBM Data Science Experience.  I  have occasionally experienced issues when trying to load from a URL.  If that happens to you, try cloning or downloading this repo and importing the notebooks as files.
 
 ## Technologies
+ 
+The overall architecture looks like this:
+
+<p align="center">
+<img alt="Overall Architecture" src="./docs/overview_application_architecture.png" width="75%">
+</p>
 
 The technologies used in this demo are:
 
@@ -28,12 +34,8 @@ The technologies used in this demo are:
     - retraining recommendation model hourly
     - generating recommendations and saving to Cloudant
  - IBM Datascience Experience (DSX) Github integration for saving notebooks
- 
-The overall architecture looks like this:
-
-<p align="center">
-<img alt="Overall Architecture" src="./docs/overview_application_architecture.png" width="75%">
-</p>
+ - IBM Message Hub for the web application to send a stream of ratings as they are entered by the user (this component is optional in the demo)
+ - IBM BigInsights on Cloud to demonstrate how data can be ingested from Message Hub using spark streaming (this component is optional in the demo)
 
 ## Web application screenshots 
 
