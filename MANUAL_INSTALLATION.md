@@ -1,4 +1,4 @@
-### Setup
+### Manual Setup
 
 #### Prerequisites
 
@@ -17,36 +17,45 @@ source venv/bin/activate
 pip3.5 install -r requirements.txt
 ```
 
-#### Configure Cloudant and Redis
+#### Configure Cloudant
 
  - Create a Cloudant service in Bluemix.
- - Create the file etc/cloudant_vcap.json (see cloudant_vcap.json_template)
+ - Create the file web_app/etc/cloudant_vcap.json (see [web_app/etc/cloudant_vcap.json_template](./web_app/etc/cloudant_vcap.json_template) for an example)
  
-  Optional:
+#### Configure Message Hub (optional)
  
  - Create a MessageHub service in Bluemix.
- - Create the file etc/messagehub_vcap.json (see messagehub_vcap.json_template)
+ - Create the file web_app/etc/messagehub_vcap.json (see [web_app/etc/messagehub_vcap.json_template](./web_app/etc/cloudant_vcap.json_template) for an example)
  - Edit manifest.yml to uncomment the messagehub configuration
  - When the web application gets deployed, a topic 'movie_ratings' will be created for you
  
- Optional:
+#### Configure Redis (optional)
  
  - Create a Redis service in Bluemix.
- - Create the file etc/redis_vcap.json (see redis.json_template)
+ - Create the file web_app/etc/redis_vcap.json (see [web_app/etc/redis_vcap.json_template](./web_app/etc/cloudant_vcap.json_template) for an example)
  - Edit manifest.yml to uncomment the redis configuration
+ 
+#### Configure BigInsights (optional)
+ 
+ - Create a BigInsights Basic service in Bluemix.
+ - Create the file hdp_app/etc/vcap.json with your Message Hub details (see [hdp_app/etc/vcap.json_template](./hdp_app/etc/vcap.json_template) for an example)
+ - Create the file hdp_app/etc/bi_connection.properties with your BigInsight details (see [hdp_app/etc/bi_connection.properties_template](./hdp_app/etc/bi_connection.properties_template) for an example)
+ - Follow the steps in the [README](./hdp_app/README.md) to build and deploy the spark code
 
 
-#### Setup the databases
+#### Setup the Cloudant databases
 
 This only needs to be performed once.
 
 ```
+cd web_app
 ./run.sh db_all
 ```
 
-### Run locally
+### Run web_app locally
 
 ```
+cd web_app
 ./run.sh
 ```
 
@@ -58,7 +67,7 @@ You should see a URL output:
 
 Open this to try out the webapp locally.
 
-### Push to bluemix
+### Push web_app to bluemix
 
  - edit manifest.yml
    - provide a unique host
@@ -67,7 +76,7 @@ Open this to try out the webapp locally.
      - your redis service name
      - your message hub service name
 
-Then run:
+Then run the following commands:
 
 ```
 # change directory to the folder with manifest.yml
@@ -104,19 +113,3 @@ cf push
     - save a new version of the notebook: File -> Save Version
     - setup a DSX schedule job to run the version every hour
 
-### Developing
-
-You can run python code from the python REPL, e.g.
-
-
-```
-$ cd web_app
-$ source venv/bin/activate
-$ source set_vcap.sh
-$ python3.5
->>> from app import app
->>> from app.dao import MovieDAO
->>> MovieDAO.get_movie_names([1,2,3])
-{1: 'Toy Story (1995)', 2: 'Jumanji (1995)', 3: 'Grumpier Old Men (1995)'}
->>>
-```
