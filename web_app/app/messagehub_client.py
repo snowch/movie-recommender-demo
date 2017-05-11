@@ -46,7 +46,9 @@ def create_topic():
 def send_message(message):
 
     producer.send(app.config['KAFKA_TOPIC'], message.encode('utf-8'))
-    # producer.flush()
+
+    # FIXME sending is unreliable unless we flush
+    producer.flush()
 
 
 create_topic()
