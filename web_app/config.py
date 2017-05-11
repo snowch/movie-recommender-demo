@@ -54,6 +54,18 @@ class Config:
         MESSAGEHUB_ENABLED = False
         print("MessageHub configuration not found in VCAP services. Running without MessageHub.")
 
+    # BigInsights details
+
+    BI_HIVE_HOSTNAME = os.getenv("BI_HIVE_HOSTNAME")
+    BI_HIVE_USERNAME = os.getenv("BI_HIVE_USERNAME")
+    BI_HIVE_PASSWORD = os.getenv("BI_HIVE_PASSWORD")
+
+    if BI_HIVE_HOSTNAME and BI_HIVE_USERNAME and BI_HIVE_PASSWORD:
+        BI_HIVE_ENABLED = True
+    else:
+        print("BigInsights configuration not found in environement. Running without BigInsights.")
+        BI_HIVE_ENABLED = False
+
 
     @staticmethod
     def init_app(app):
