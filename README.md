@@ -2,8 +2,6 @@
 
 This project walks through how you can create recommendations using Apache Spark machine learning.  There are a number of jupyter notebooks that you can run on IBM Data Science Experience, and there a live demo of a movie recommendation web application you can interact with.  The demo also uses IBM Message Hub (kafka) to push application events to topic where they are consumed by a spark streaming job running on IBM BigInsights (hadoop).
 
-**Update:** Substantial new functionality has been added to this demo.  The changes are available on a [branch](https://github.com/snowch/movie-recommender-demo/tree/messagehub_integration) and will get merged back into master shortly.
-
 ## Quick start
 
 If you want to try out a live demo of the web application, visit [here](https://movie-recommend-demo.mybluemix.net/).  This is also an overview video on [YouTube](https://www.youtube.com/watch?v=is9ZzgbGSdM).
