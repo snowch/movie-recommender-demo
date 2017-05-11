@@ -117,47 +117,61 @@ def polynomial():
 
     from . import app
 
-    if app.config['BI_HIVE_ENABLED']:
+    if not app.config['BI_HIVE_ENABLED']:
+        return render_template('/main/biginsights_not_configured.html')
 
-        BI_HIVE_HOSTNAME = app.config['BI_HIVE_HOSTNAME']
-        BI_HIVE_USERNAME = app.config['BI_HIVE_USERNAME']
-        BI_HIVE_PASSWORD = app.config['BI_HIVE_PASSWORD']
-        
-        from impala.dbapi import connect 
-        
-        # Note that BigInsights Enterprise clusters will need to specify the
-        # ssl certificate because it is self-signed.
-        conn = connect(
-                    host=BI_HIVE_HOSTNAME,
-                    port=10000, 
-                    use_ssl=True, 
-                    auth_mechanism='PLAIN', 
-                    user=BI_HIVE_USERNAME, 
-                    password=BI_HIVE_PASSWORD
-                    )
-        cursor = conn.cursor()
-        cursor.execute(
-                'select * from movie_ratings', 
-                configuration={ 
-                    'hive.mapred.supports.subdirectories': 'true', 
-                    'mapred.input.dir.recursive': 'true' 
-                    })
+    BI_HIVE_HOSTNAME = app.config['BI_HIVE_HOSTNAME']
+    BI_HIVE_USERNAME = app.config['BI_HIVE_USERNAME']
+    BI_HIVE_PASSWORD = app.config['BI_HIVE_PASSWORD']
+    
+    from impala.dbapi import connect 
+    from impala.util import as_pandas
 
-        for row in cursor:
-           print(row)
+    # TODO probably want to cache the connection rather than
+    # instantiate it on every request
+    
+    # Note that BigInsights Enterprise clusters will need to specify the
+    # ssl certificate because it is self-signed.
 
-    # Grab the inputs arguments from the URL
-    args = flask.request.args
+    conn = connect(
+                host=BI_HIVE_HOSTNAME,
+                port=10000, 
+                use_ssl=True, 
+                auth_mechanism='PLAIN', 
+                user=BI_HIVE_USERNAME, 
+                password=BI_HIVE_PASSWORD
+                )
+    cursor = conn.cursor()
+    cursor.execute(
+            'select * from movie_ratings limit 500', 
+            configuration={ 
+                'hive.mapred.supports.subdirectories': 'true', 
+                'mapred.input.dir.recursive': 'true' 
+                })
 
-    # Get all the form arguments in the url with defaults
-    color = colors[getitem(args, 'color', 'Black')]
-    _from = int(getitem(args, '_from', 0))
-    to = int(getitem(args, 'to', 10))
+    df = as_pandas(cursor)
 
-    # Create a polynomial line graph with those arguments
-    x = list(range(_from, to + 1))
-    fig = figure(title="Polynomial")
-    fig.line(x, [i ** 2 for i in x], color=color, line_width=2)
+    print(df)
+
+    from bokeh.charts import Bar, Histogram, output_file, show
+
+    # fig = Histogram(
+    #         df['movie_ratings.rating'], 
+    #         title="Movie Rating Distribution"
+    #         )
+
+    fig = Bar(
+            df,
+            label='movie_ratings.rating',
+            values='movie_ratings.rating',
+            agg='count',
+            title='Distribution of movie ratings'
+            )
+
+
+    fig.plot_height = 400
+    fig.xaxis.axis_label = 'Rating'
+    fig.yaxis.axis_label = 'Count( Rating )'
 
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
@@ -169,9 +183,6 @@ def polynomial():
         plot_div=div,
         js_resources=js_resources,
         css_resources=css_resources,
-        color=color,
-        _from=_from,
-        to=to
     )
     return encode_utf8(html)
 
