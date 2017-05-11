@@ -3,9 +3,9 @@ declared-services:
         label: cloudantNoSQLDB 
         plan: Lite 
 
-    my_messagehub: 
-        label: messagehub
-        plan: standard
+#    my_messagehub: 
+#       label: messagehub
+#       plan: standard
 
 #    my_redis: 
 #       label: compose-for-redis
@@ -19,7 +19,7 @@ applications:
   path: web_app
   services:
   - my_cloudant
-  - my_messagehub
+# - my_messagehub
 # - my_redis
   
   # allow 3 minutes to start the application 
