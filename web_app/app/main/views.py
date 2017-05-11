@@ -108,7 +108,7 @@ def getitem(obj, item, default):
     else:
         return obj[item]
 
-@app.route("/report")
+@main.route("/report")
 def polynomial():
     """ Very simple embedding of a polynomial chart
     """
