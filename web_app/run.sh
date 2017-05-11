@@ -16,7 +16,7 @@ function get_property {
     grep "^$2:" "$1" | cut -d':' -f2; 
 }
 
-if [[ $USE_BIGIN -eq 1 ]]
+if [[ $USE_BIGIN -eq 1 && -f ../hdp_app/etc/bi_connection.properties ]]
 then
     export BI_HIVE_HOSTNAME="$(get_property ../hdp_app/etc/bi_connection.properties hostname)"
     export BI_HIVE_USERNAME="$(get_property ../hdp_app/etc/bi_connection.properties username)"
