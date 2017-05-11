@@ -52,6 +52,14 @@ cd web_app
 ./run.sh db_all
 ```
 
+If you want to use BigInsights:
+```
+cf set-env movie-recommend-demo BI_HIVE_USERNAME changeme
+cf set-env movie-recommend-demo BI_HIVE_PASSWORD changeme
+cf set-env movie-recommend-demo BI_HIVE_HOSTNAME changeme
+cf restage movie-recommend-demo
+```
+
 ### Run web_app locally
 
 ```

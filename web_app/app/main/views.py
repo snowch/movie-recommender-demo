@@ -95,23 +95,8 @@ def set_rating():
     return('{ "success": "true" }')
 
 
-colors = {
-    'Black': '#000000',
-    'Red':   '#FF0000',
-    'Green': '#00FF00',
-    'Blue':  '#0000FF',
-}
-
-def getitem(obj, item, default):
-    if item not in obj:
-        return default
-    else:
-        return obj[item]
-
 @main.route("/report")
-def polynomial():
-    """ Very simple embedding of a polynomial chart
-    """
+def report():
 
     # TODO move Hive code to a new file hive_dao.py
 
@@ -123,7 +108,7 @@ def polynomial():
     BI_HIVE_HOSTNAME = app.config['BI_HIVE_HOSTNAME']
     BI_HIVE_USERNAME = app.config['BI_HIVE_USERNAME']
     BI_HIVE_PASSWORD = app.config['BI_HIVE_PASSWORD']
-    
+
     from impala.dbapi import connect 
     from impala.util import as_pandas
 
@@ -141,7 +126,9 @@ def polynomial():
                 user=BI_HIVE_USERNAME, 
                 password=BI_HIVE_PASSWORD
                 )
+
     cursor = conn.cursor()
+
     cursor.execute(
             'select * from movie_ratings limit 500', 
             configuration={ 
@@ -151,14 +138,7 @@ def polynomial():
 
     df = as_pandas(cursor)
 
-    print(df)
-
     from bokeh.charts import Bar, Histogram, output_file, show
-
-    # fig = Histogram(
-    #         df['movie_ratings.rating'], 
-    #         title="Movie Rating Distribution"
-    #         )
 
     fig = Bar(
             df,
@@ -171,7 +151,7 @@ def polynomial():
 
     fig.plot_height = 400
     fig.xaxis.axis_label = 'Rating'
-    fig.yaxis.axis_label = 'Count( Rating )'
+    fig.yaxis.axis_label = 'Count ( Rating )'
 
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
