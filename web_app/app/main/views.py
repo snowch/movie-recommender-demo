@@ -112,6 +112,28 @@ def getitem(obj, item, default):
 def polynomial():
     """ Very simple embedding of a polynomial chart
     """
+    from impala.dbapi import connect 
+    
+    # Note that BigInsights Enterprise clusters will need to specify the
+    # ssl certificate because it is self-signed.
+    conn = connect(
+                host='TODO',
+                port=10000, 
+                use_ssl=True, 
+                auth_mechanism='PLAIN', 
+                user='TODO', 
+                password='TODO'
+                )
+    cursor = conn.cursor()
+    cursor.execute(
+            'select * from movie_ratings', 
+            configuration={ 
+                'hive.mapred.supports.subdirectories': 'true', 
+                'mapred.input.dir.recursive': 'true' 
+                })
+
+    for row in cursor:
+       print(row)
 
     # Grab the inputs arguments from the URL
     args = flask.request.args
