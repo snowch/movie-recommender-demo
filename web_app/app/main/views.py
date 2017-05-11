@@ -118,7 +118,7 @@ def polynomial():
     from . import app
 
     if not app.config['BI_HIVE_ENABLED']:
-        return render_template('/main/biginsights_not_configured.html')
+        return render_template('/main/bi_not_enabled.html')
 
     BI_HIVE_HOSTNAME = app.config['BI_HIVE_HOSTNAME']
     BI_HIVE_USERNAME = app.config['BI_HIVE_USERNAME']
