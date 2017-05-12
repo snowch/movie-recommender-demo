@@ -129,8 +129,11 @@ def report():
 
     cursor = conn.cursor()
 
+    # FIXME we probably want to create aggregates on hadoop
+    #       and cache them rather than returning the whole data
+    #       set here
     cursor.execute(
-            'select * from movie_ratings limit 500', 
+            'select * from movie_ratings', 
             configuration={ 
                 'hive.mapred.supports.subdirectories': 'true', 
                 'mapred.input.dir.recursive': 'true' 
@@ -138,14 +141,15 @@ def report():
 
     df = as_pandas(cursor)
 
-    from bokeh.charts import Bar, Histogram, output_file, show
+    from bokeh.charts import Bar, output_file, show
 
     fig = Bar(
             df,
             label='movie_ratings.rating',
             values='movie_ratings.rating',
             agg='count',
-            title='Distribution of movie ratings'
+            title='Distribution of movie ratings',
+            legend=False
             )
 
 

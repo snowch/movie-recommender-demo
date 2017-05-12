@@ -15,11 +15,20 @@
 {% block page_content %}
 
     <div class="page-header">
-        <h2>Analytics (against Hadoop Data Warehouse)</h2>
+        <h2>Application Analytics</h2>
+    </div>
+
+    <div>
+        <p>Example of analytics are retrieved from Hadoop using Hive API.</p>
     </div>
 
     <div class="row">
         {{ plot_div|indent(4)|safe }}
+    </div>
+
+    <div>
+        <p>Spark streaming on Hadoop ingests ratings from Message Hub using a batch window size of 60s.</p>
+        <p>Please allow time for new ratings in the web application to be counted here.</p>
     </div>
 
     <br/>
