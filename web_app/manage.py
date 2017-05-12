@@ -18,6 +18,7 @@ try:
 except ImportError:
     print("Installing missing thrift_sasl")
     import pip
+    # need a patched version of thrift_sasl.  see https://github.com/cloudera/impyla/issues/238
     pip.main(['install', '--no-deps', 'git+https://github.com/snowch/thrift_sasl'])
 
 
