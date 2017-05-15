@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, sys
 import atexit
 from . import app
 
@@ -25,6 +25,9 @@ producer = KafkaProducer(bootstrap_servers = app.config['KAFKA_BROKERS_SASL'],
 def create_topic():
     import requests
     import json
+
+    if not app.config['MESSAGEHUB_ENABLED']:
+        return
     
     data = { 'name' : app.config['KAFKA_TOPIC'] }
     headers = {
@@ -35,20 +38,28 @@ def create_topic():
 
     # TODO check for topic before creating - only create if required
 
-    # create the topic (http POST)
-    response = requests.post(url, headers = headers, data = json.dumps(data))
+    try:
+        # create the topic (http POST)
+        response = requests.post(url, headers = headers, data = json.dumps(data))
 
-    # verify the topic was created (http GET)
-    response = requests.get(url, headers = headers, data = json.dumps(data))
-    print (response.text)
+        # verify the topic was created (http GET)
+        response = requests.get(url, headers = headers, data = json.dumps(data))
+        print (response.text)
+    except:
+        print("Unexpected error:", sys.exc_info()[0])
+        raise
 
 
 def send_message(message):
 
-    producer.send(app.config['KAFKA_TOPIC'], message.encode('utf-8'))
+    try:
+        producer.send(app.config['KAFKA_TOPIC'], message.encode('utf-8'))
 
-    # FIXME sending is unreliable unless we flush
-    producer.flush()
+        # FIXME sending is unreliable unless we flush
+        producer.flush()
+    except:
+        print("Unexpected error:", sys.exc_info()[0])
+        raise
 
 
 create_topic()

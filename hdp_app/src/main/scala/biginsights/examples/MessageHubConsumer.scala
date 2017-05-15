@@ -33,7 +33,7 @@ object MessageHubConsumer{
     kafkaProps.createConfiguration()
 
 
-    val ssc = new StreamingContext( sc, Seconds(60) )
+    val ssc = new StreamingContext( sc, Seconds(30) )
 
     val stream = ssc.createKafkaStream[String, String, StringDeserializer, StringDeserializer](
       kafkaProps,
@@ -47,6 +47,7 @@ object MessageHubConsumer{
     //
     // Note that the hadoop-streaming.jar file can be found here:
     //   /usr/iop/current/hadoop-mapreduce-client/hadoop-streaming.jar
+    
     stream.foreachRDD{ rdd =>
       if (rdd.count() > 0) {
 
