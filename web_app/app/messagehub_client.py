@@ -20,7 +20,8 @@ producer = KafkaProducer(bootstrap_servers = app.config['KAFKA_BROKERS_SASL'],
                          security_protocol = security_protocol,
                          ssl_context = context,
                          sasl_mechanism = sasl_mechanism,
-                         api_version = (0,10))
+                         api_version = (0,10),
+                         retries=5)
 
 def create_topic():
     import requests
