@@ -52,25 +52,32 @@ ssh.settings {
 
 shadowJar.archiveName = 'SparkMessageHubScalaYarn-all.jar'
 
-delete "./build"
+// delete "./build"
 
 task SubmitToYarn {
     dependsOn shadowJar
+    
     doLast {
+    	ant.checksum file: "${projectDir}/build/libs/${shadowJar.archiveName}", format: "MD5SUM", property: "md5sumValue"
+    
+    	def localChecksumValue = "${ant.properties["md5sumValue"]}"
+    	
         def remoteProjectDir = "movie-ratings-ingest"
 
         // ssh plugin documentation: https://gradle-ssh-plugin.github.io/docs/
         ssh.run {
             session(remotes.bicluster) {
 
-                try {
-                    // initialise kerberos
-                    execute "kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM"
-                } 
-                catch (Exception e) {
-                    println "problem running kinit - maybe this is a Basic cluster?"
-                }
-
+                // initialise kerberos if this is an enterprise cluster
+                execute """
+                	which kinit 
+                	if [[ \$? -eq 0 ]] 
+                	then
+                	   kinit -k -t ${props.username}.keytab ${props.username}@IBM.COM
+                	else
+                	   exit 0
+                	fi
+                """
 
                 def psCmd = "yarn application -list 2>/dev/null | grep 'biginsights.examples.MessageHubConsumer' | awk '{print \$1}'"
 
@@ -78,19 +85,27 @@ task SubmitToYarn {
                 if (application_ids.size() > 0) {
                     throw new GradleException("ERROR:  ** Found yarn application already running.  Kill other applications with `./gradlew KillAll` **")
                 }
+                
+                def remoteChecksumValue = execute "md5sum ${remoteProjectDir}/${shadowJar.archiveName}"
 
-                execute "rm -rf ${remoteProjectDir}"
-
-                // create temp local dir for holding LICENSE file before uploading it to hdfs
-                execute "mkdir ${remoteProjectDir}"
-
-                println "Uploading SparkMessageHubScala-all.jar to cluster - this may take some time"
-
-                // upload spark script and text file to process
-                put from: "${projectDir}/build/libs/SparkMessageHubScalaYarn-all.jar", 
-                    into: "${remoteProjectDir}/SparkMessageHubScalaYarn-all.jar"
-
-                println "Finished Uploading SparkMessageHubScalaYarn-all.jar"
+				if ( remoteChecksumValue.contains(localChecksumValue) ) {
+				
+					println "Remote file ${shadowJar.archiveName} is up-to-date. Skipping upload"
+					
+				} else {
+				
+	                execute "rm -rf ${remoteProjectDir}"
+	
+	                execute "mkdir ${remoteProjectDir}"
+	
+	                println "Uploading SparkMessageHubScala-all.jar to cluster - this may take some time"
+	
+	                // upload spark script and text file to process
+	                put from: "${projectDir}/build/libs/SparkMessageHubScalaYarn-all.jar", 
+	                    into: "${remoteProjectDir}/SparkMessageHubScalaYarn-all.jar"
+	
+	                println "Finished Uploading SparkMessageHubScalaYarn-all.jar"
+	            }
 
                 def clz = "--class \"biginsights.examples.MessageHubConsumer\""
 
