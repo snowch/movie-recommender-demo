@@ -52,6 +52,7 @@ ssh.settings {
 
 shadowJar.archiveName = 'SparkMessageHubScalaYarn-all.jar'
 
+// uncomment the below line to force clean every run
 // delete "./build"
 
 task SubmitToYarn {
