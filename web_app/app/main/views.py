@@ -140,6 +140,11 @@ def report():
                 })
 
     df = as_pandas(cursor)
+    
+    count = df.shape[0]
+
+    if count == 0:
+       return render_template('/main/bi_no_records.html')
 
     from bokeh.charts import Bar, output_file, show
 
