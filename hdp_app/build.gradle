@@ -86,8 +86,14 @@ task SubmitToYarn {
                 if (application_ids.size() > 0) {
                     throw new GradleException("ERROR:  ** Found yarn application already running.  Kill other applications with `./gradlew KillAll` **")
                 }
-                
-                def remoteChecksumValue = execute "md5sum ${remoteProjectDir}/${shadowJar.archiveName}"
+              
+                def remoteChecksumValue = ""
+                try {  
+                    remoteChecksumValue = execute "md5sum ${remoteProjectDir}/${shadowJar.archiveName}"
+                }
+                catch (Exception e) {
+                    // ignore exception
+                }
 
                 if ( remoteChecksumValue.contains(localChecksumValue) ) {
 				
