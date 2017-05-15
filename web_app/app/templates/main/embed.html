@@ -29,9 +29,10 @@
     <br/>
 
     <div>
+        Note:
         <ul>
-            <li>Ratings data is put onto a Message Hub topic every time a user rates a movie in the web application.</li>
-        <li>A backgroung spark streaming job on Hadoop then ingests ratings from Message Hub using a batch window size of 60 seconds.</li>
+            <li>Every time a user rates a movie in the web application a message is put on Message Hub capturing the rating details.</li>
+        <li>A backgroung spark streaming job on Hadoop ingests ratings from Message Hub using a batch window size of 60 seconds.</li>
         </ul>
         <p>Please allow time for new ratings in the web application to appear in the chart.</p>
     </div>
