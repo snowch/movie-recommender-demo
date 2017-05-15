@@ -118,14 +118,18 @@ def report():
     # Note that BigInsights Enterprise clusters will need to specify the
     # ssl certificate because it is self-signed.
 
-    conn = connect(
-                host=BI_HIVE_HOSTNAME,
-                port=10000, 
-                use_ssl=True, 
-                auth_mechanism='PLAIN', 
-                user=BI_HIVE_USERNAME, 
-                password=BI_HIVE_PASSWORD
-                )
+    try:
+        conn = connect(
+                    host=BI_HIVE_HOSTNAME,
+                    port=10000, 
+                    use_ssl=True, 
+                    auth_mechanism='PLAIN', 
+                    user=BI_HIVE_USERNAME, 
+                    password=BI_HIVE_PASSWORD
+                    )
+    except:
+       return render_template('/main/bi_connection_issue.html')
+
 
     cursor = conn.cursor()
 
