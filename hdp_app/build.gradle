@@ -17,8 +17,8 @@ repositories {
 }
 
 dependencies {
-	// required to build the spark example
-	compile 'org.scala-lang:scala-library:2.10'
+    // required to build the spark example
+    compile 'org.scala-lang:scala-library:2.10'
     compile 'org.apache.spark:spark-core_2.10:1.6.2'
     compile 'org.apache.spark:spark-streaming_2.10:1.6.2'
     compile 'org.apache.kafka:kafka_2.10:0.9.0.0'
@@ -52,6 +52,7 @@ ssh.settings {
 
 shadowJar.archiveName = 'SparkMessageHubScalaYarn-all.jar'
 
+// uncomment the below line to force clean every run
 // delete "./build"
 
 task SubmitToYarn {
@@ -88,11 +89,11 @@ task SubmitToYarn {
                 
                 def remoteChecksumValue = execute "md5sum ${remoteProjectDir}/${shadowJar.archiveName}"
 
-				if ( remoteChecksumValue.contains(localChecksumValue) ) {
+                if ( remoteChecksumValue.contains(localChecksumValue) ) {
 				
-					println "Remote file ${shadowJar.archiveName} is up-to-date. Skipping upload"
+                    println "Remote file ${shadowJar.archiveName} is up-to-date. Skipping upload"
 					
-				} else {
+                } else {
 				
 	                execute "rm -rf ${remoteProjectDir}"
 	
