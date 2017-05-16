@@ -37,36 +37,8 @@ class Config:
         REDIS_ENABLED = True
     except:
         REDIS_ENABLED = False
-        print("Redis configuration not found in VCAP services. Running without Redis.")
-
-    # Messagehub details
+        print("Redis configuration not found in VCAP services")
     
-    try:
-        messagehub_credentials = vcap['messagehub'][0]['credentials']
-        MESSAGEHUB_ENABLED = True
-        KAFKA_ADMIN_URL = messagehub_credentials['kafka_admin_url']
-        KAFKA_API_KEY = messagehub_credentials['api_key']
-        KAFKA_BROKERS_SASL = messagehub_credentials['kafka_brokers_sasl'] 
-        KAFKA_USERNAME = messagehub_credentials['user'] 
-        KAFKA_PASSWORD = messagehub_credentials['password']
-        KAFKA_TOPIC = 'movie_ratings'
-    except:
-        MESSAGEHUB_ENABLED = False
-        print("MessageHub configuration not found in VCAP services. Running without MessageHub.")
-
-    # BigInsights details
-
-    BI_HIVE_HOSTNAME = os.getenv("BI_HIVE_HOSTNAME")
-    BI_HIVE_USERNAME = os.getenv("BI_HIVE_USERNAME")
-    BI_HIVE_PASSWORD = os.getenv("BI_HIVE_PASSWORD")
-
-    if BI_HIVE_HOSTNAME and BI_HIVE_USERNAME and BI_HIVE_PASSWORD:
-        BI_HIVE_ENABLED = True
-    else:
-        print("BigInsights configuration not found in environement. Running without BigInsights.")
-        BI_HIVE_ENABLED = False
-
-
     @staticmethod
     def init_app(app):
         pass
