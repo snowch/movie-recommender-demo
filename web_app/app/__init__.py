@@ -22,7 +22,6 @@ login_manager.init_app(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
-from . import messagehub_client
 from . import dao
 from . import models
 from . import views
