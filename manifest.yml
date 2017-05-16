@@ -16,7 +16,7 @@ applications:
   host: movie-recommend-demo
   buildpack: https://github.com/cloudfoundry/python-buildpack.git#v1.5.18
   memory: 128M
-  instances: 1
+  instances: 2
   path: web_app
   services:
   - my_cloudant

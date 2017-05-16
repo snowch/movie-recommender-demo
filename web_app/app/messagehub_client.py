@@ -55,9 +55,6 @@ def send_message(message):
 
     try:
         producer.send(app.config['KAFKA_TOPIC'], message.encode('utf-8'))
-
-        # FIXME sending is unreliable unless we flush
-        producer.flush()
     except:
         print("Unexpected error:", sys.exc_info()[0])
         raise
@@ -68,7 +65,8 @@ create_topic()
 @atexit.register
 def python_shutting_down():
     print('Disconnecting MessageHub client')
-    # TODO
+    producer.flush()
+    producer.close()
 
 
 
