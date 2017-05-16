@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+    {{ super() }}
+    {{ js_resources|indent(4)|safe }}
+
+    {{ css_resources|indent(4)|safe }}
+
+    {{ plot_script|indent(4)|safe }}
+{% endblock %}
+
+{% block title %}Movie recommender{% endblock %}
+
+{% block page_content %}
+
+    <div class="page-header">
+        <h2>Application Analytics</h2>
+    </div>
+
+    <div>
+        <p>The ratings data for this Analytics Example chart is retrieved from Hadoop using Hive API.</p>
+    </div>
+
+    <div class="row">
+        {{ plot_div|indent(4)|safe }}
+    </div>
+
+    <br/>
+
+    <div>
+        Note:
+        <ul>
+            <li>Every time a user rates a movie in the web application a message is put on Message Hub capturing the rating details.</li>
+        <li>A backgroung spark streaming job on Hadoop ingests ratings from Message Hub using a batch window size of 60 seconds.</li>
+        </ul>
+        <p>Please allow time for new ratings in the web application to appear in the chart.</p>
+    </div>
+
+    <br/>
+
+{% endblock %}

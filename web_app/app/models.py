@@ -13,6 +13,7 @@ from . import app, login_manager
 import collections
 import numpy as np
 from .dao import MovieDAO, RatingDAO, RecommendationDAO, UserDAO, RecommendationsNotGeneratedException, RecommendationsNotGeneratedForUserException
+from . import messagehub_client
 
 
 class CustomJSONEncoder(JSONEncoder):
@@ -128,6 +129,11 @@ class Rating:
         RatingDAO.save_rating(
                 int(movie_id), user_id, rating
                 )
+
+        if app.config['MESSAGEHUB_ENABLED'] == True:
+            message = '{0},{1},{2}'.format(user_id, movie_id, rating)
+            messagehub_client.send_message( message )
+            print('Sent message to MessageHub', message)
 
 class Movie:
 

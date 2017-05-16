@@ -4,6 +4,24 @@ import config
 from db_setup import dbs_exist, delete_dbs, create_dbs, populate_movie_db, populate_rating_db, create_moviedb_indexes, create_authdb_indexes, create_latest_recommendations_index, create_test_user
 import os
 
+# TODO
+
+try:
+    import impyla 
+except ImportError:
+    print("Installing missing impyla")
+    import pip
+    pip.main(['install', '--no-deps', 'impyla'])
+
+try:
+    import thrift_sasl
+except ImportError:
+    print("Installing missing thrift_sasl")
+    import pip
+    # need a patched version of thrift_sasl.  see https://github.com/cloudera/impyla/issues/238
+    pip.main(['install', '--no-deps', 'git+https://github.com/snowch/thrift_sasl'])
+
+
 port = app.config['PORT']
 server = Server(host="0.0.0.0", port=port)
 

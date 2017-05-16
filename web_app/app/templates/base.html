@@ -75,6 +75,9 @@
                 {% else %}
                 <li><a href="{{ url_for('auth.login') }}">Log In / Register</a></li>
                 {% endif %}
+            <a class="navbar-brand" href="/report">
+                <span class="glyphicon glyphicon-dashboard"></span>&nbsp;
+               </a>
             </ul>
         </div>
     </div>
@@ -84,7 +87,11 @@
   <div class="container">
     <div class="col-sm-12 text-center navbar-text">
         <p class="text-muted">
-            <b>NOTE:</b> This demo is periodically refreshed - any data you enter will be deleted.
+            <a class="display:block;" href="/report">
+                <span class="glyphicon glyphicon-dashboard"></span>&nbsp; Analytics Dashboard
+            </a>
+            | 
+        <b>NOTE:</b> This demo is periodically refreshed - any data you enter will be deleted.
         </p>
     </div>
   </div>

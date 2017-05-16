@@ -1,0 +1,12 @@
+/bin/
+.classpath
+.project
+.settings/
+.pydevproject
+.cache-main
+vcap.json
+bi_connection.properties
+.gradle/
+build/
+*.swp
+bin/

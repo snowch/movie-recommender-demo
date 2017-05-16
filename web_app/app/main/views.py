@@ -6,6 +6,13 @@ from .. import app
 from ..models import Movie, Recommendation, Rating
 from ..dao import RecommendationsNotGeneratedException, RecommendationsNotGeneratedForUserException
 
+import flask
+from bokeh.embed import components
+from bokeh.plotting import figure
+from bokeh.resources import INLINE
+from bokeh.util.string import encode_utf8
+
+
 @main.route('/', methods=['GET'])
 def index():
 
@@ -86,3 +93,90 @@ def set_rating():
         Rating.save_rating(movie_id, user_id, int(rating))
 
     return('{ "success": "true" }')
+
+
+@main.route("/report")
+def report():
+
+    # TODO move Hive code to a new file hive_dao.py
+
+    from . import app
+
+    if not app.config['BI_HIVE_ENABLED']:
+        return render_template('/main/bi_not_enabled.html')
+
+    BI_HIVE_HOSTNAME = app.config['BI_HIVE_HOSTNAME']
+    BI_HIVE_USERNAME = app.config['BI_HIVE_USERNAME']
+    BI_HIVE_PASSWORD = app.config['BI_HIVE_PASSWORD']
+
+    from impala.dbapi import connect 
+    from impala.util import as_pandas
+
+    # TODO probably want to cache the connection rather than
+    # instantiate it on every request
+    
+    # Note that BigInsights Enterprise clusters will need to specify the
+    # ssl certificate because it is self-signed.
+
+    try:
+        conn = connect(
+                    host=BI_HIVE_HOSTNAME,
+                    port=10000, 
+                    use_ssl=True, 
+                    auth_mechanism='PLAIN', 
+                    user=BI_HIVE_USERNAME, 
+                    password=BI_HIVE_PASSWORD
+                    )
+    except:
+       return render_template('/main/bi_connection_issue.html')
+
+
+    cursor = conn.cursor()
+
+    # FIXME we probably want to create aggregates on hadoop
+    #       and cache them rather than returning the whole data
+    #       set here
+    cursor.execute(
+            'select * from movie_ratings', 
+            configuration={ 
+                'hive.mapred.supports.subdirectories': 'true', 
+                'mapred.input.dir.recursive': 'true' 
+                })
+
+    df = as_pandas(cursor)
+    
+    count = df.shape[0]
+
+    if count == 0:
+       return render_template('/main/bi_no_records.html')
+
+    from bokeh.charts import Bar, output_file, show
+
+    fig = Bar(
+            df,
+            label='movie_ratings.rating',
+            values='movie_ratings.rating',
+            agg='count',
+            title='Distribution of movie ratings',
+            legend=False
+            )
+
+
+    fig.plot_height = 400
+    fig.xaxis.axis_label = 'Rating'
+    fig.yaxis.axis_label = 'Count ( Rating )'
+
+    js_resources = INLINE.render_js()
+    css_resources = INLINE.render_css()
+
+    script, div = components(fig)
+    html = flask.render_template(
+        '/main/embed.html',
+        plot_script=script,
+        plot_div=div,
+        js_resources=js_resources,
+        css_resources=css_resources,
+    )
+    return encode_utf8(html)
+
+

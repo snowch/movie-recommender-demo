@@ -1,0 +1,10 @@
+{
+  "api_key": "changeme",
+  "kafka_rest_url": "changeme",
+  "kafka_brokers_sasl": [
+    "changeme"
+  ],
+  "user": "changeme",
+  "password": "changeme",
+  "topic": "movie_ratings"
+}

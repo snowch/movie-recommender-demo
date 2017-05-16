@@ -3,6 +3,10 @@ declared-services:
         label: cloudantNoSQLDB 
         plan: Lite 
 
+#    my_messagehub: 
+#       label: messagehub
+#       plan: standard
+
 #    my_redis: 
 #       label: compose-for-redis
 #       plan: Standard
@@ -10,12 +14,14 @@ declared-services:
 applications:
 - name: movie-recommend-demo
   host: movie-recommend-demo
+  buildpack: https://github.com/cloudfoundry/python-buildpack.git#v1.5.18
   memory: 128M
   instances: 1
   path: web_app
   services:
   - my_cloudant
-# - my_redis
+#  - my_messagehub
+#  - my_redis
   
   # allow 3 minutes to start the application 
   # when we use deploy to bluemix, the db's get
