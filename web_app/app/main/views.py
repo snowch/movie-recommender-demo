@@ -156,7 +156,7 @@ def report():
     cursor = get_hive_cursor()
 
     if cursor is None:
-        render_template('/main/bi_connection_issue.html')
+        return render_template('/main/bi_connection_issue.html')
 
     # FIXME we probably want to create aggregates on hadoop
     #       and cache them rather than returning the whole data
@@ -164,12 +164,15 @@ def report():
 
     # we need to ignore monitoring pings which have rating user_id = -1 
     # and movie_id = -1
-    cursor.execute(
+    try:
+        cursor.execute(
             "select * from movie_ratings where customer_id <> '-1' and movie_id <> '-1'", 
             configuration={ 
                 'hive.mapred.supports.subdirectories': 'true', 
                 'mapred.input.dir.recursive': 'true' 
                 })
+    except:
+        return render_template('/main/bi_connection_issue.html')
 
     df = as_pandas(cursor)
     
