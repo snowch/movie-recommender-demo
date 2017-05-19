@@ -44,10 +44,9 @@ remotes {
 }
 
 ssh.settings {
-    if (props.known_hosts == 'allowAnyHosts') {
-        // disable ssh host key verification 
-        knownHosts = allowAnyHosts
-    }
+    // disable ssh host key verification 
+    // do not use this configuration for production environments
+    knownHosts = allowAnyHosts
 }
 
 shadowJar.archiveName = 'SparkMessageHubScalaYarn-all.jar'
