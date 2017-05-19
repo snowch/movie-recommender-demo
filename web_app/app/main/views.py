@@ -1,8 +1,27 @@
+try:
+    import impyla 
+except ImportError:
+    print("Installing missing impyla")
+    import pip
+    pip.main(['install', '--no-deps', 'impyla'])
+
+try:
+    import thrift_sasl
+except ImportError:
+    print("Installing missing thrift_sasl")
+    import pip
+    # need a patched version of thrift_sasl.  see https://github.com/cloudera/impyla/issues/238
+    pip.main(['install', '--no-deps', 'git+https://github.com/snowch/thrift_sasl'])
+
+
+
 from flask import Flask, render_template, session, redirect, url_for, request, flash
 from flask.ext.login import login_required, current_user
 from . import forms
 from . import main 
 from .. import app
+#from . import app
+
 from ..models import Movie, Recommendation, Rating
 from ..dao import RecommendationsNotGeneratedException, RecommendationsNotGeneratedForUserException
 
@@ -12,6 +31,11 @@ from bokeh.plotting import figure
 from bokeh.resources import INLINE
 from bokeh.util.string import encode_utf8
 
+from impala.dbapi import connect 
+from impala.util import as_pandas
+from .. import messagehub_client
+import time
+import json
 
 @main.route('/', methods=['GET'])
 def index():
@@ -94,13 +118,9 @@ def set_rating():
 
     return('{ "success": "true" }')
 
-
-@main.route("/report")
-def report():
+def get_hive_cursor():
 
     # TODO move Hive code to a new file hive_dao.py
-
-    from . import app
 
     if not app.config['BI_HIVE_ENABLED']:
         return render_template('/main/bi_not_enabled.html')
@@ -109,8 +129,6 @@ def report():
     BI_HIVE_USERNAME = app.config['BI_HIVE_USERNAME']
     BI_HIVE_PASSWORD = app.config['BI_HIVE_PASSWORD']
 
-    from impala.dbapi import connect 
-    from impala.util import as_pandas
 
     # TODO probably want to cache the connection rather than
     # instantiate it on every request
@@ -128,16 +146,26 @@ def report():
                     password=BI_HIVE_PASSWORD
                     )
     except:
-       return render_template('/main/bi_connection_issue.html')
+        return None
 
+    return conn.cursor()
 
-    cursor = conn.cursor()
+@main.route("/report")
+def report():
+
+    cursor = get_hive_cursor()
+
+    if cursor is None:
+        render_template('/main/bi_connection_issue.html')
 
     # FIXME we probably want to create aggregates on hadoop
     #       and cache them rather than returning the whole data
     #       set here
+
+    # we need to ignore monitoring pings which have rating user_id = -1 
+    # and movie_id = -1
     cursor.execute(
-            'select * from movie_ratings', 
+            "select * from movie_ratings where customer_id <> '-1' and movie_id <> '-1'", 
             configuration={ 
                 'hive.mapred.supports.subdirectories': 'true', 
                 'mapred.input.dir.recursive': 'true' 
@@ -179,4 +207,52 @@ def report():
     )
     return encode_utf8(html)
 
+# This method keeps a thread open for a long time which is
+# not ideal, but is the simplest way of checking
 
+@main.route("/monitor")
+def monitor():
+
+    cursor = get_hive_cursor()
+
+    if cursor is None:
+        data = { "error": "Could not connect to Hive" }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=500,
+            mimetype='application/json'
+        )
+        return response
+
+    timestamp = time.time()
+
+    message = '{0},{1},{2}'.format(-1, -1, timestamp)
+    messagehub_client.send_message( message ) 
+
+    time.sleep(70)
+
+    cursor.execute(
+            'select * from movie_ratings where rating = {0}'.format(timestamp), 
+            configuration={ 
+                'hive.mapred.supports.subdirectories': 'true', 
+                'mapred.input.dir.recursive': 'true' 
+                })
+    df = as_pandas(cursor)
+    count = df.shape[0]
+
+    if count == 1:
+        data = { "ok": "App rating found in hadoop." }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+    else:
+        data = { "error": "App rating not found in hadoop." }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=500,
+            mimetype='application/json'
+        )
+        return response

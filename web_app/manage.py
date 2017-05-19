@@ -6,24 +6,9 @@ import os
 
 # TODO
 
-try:
-    import impyla 
-except ImportError:
-    print("Installing missing impyla")
-    import pip
-    pip.main(['install', '--no-deps', 'impyla'])
-
-try:
-    import thrift_sasl
-except ImportError:
-    print("Installing missing thrift_sasl")
-    import pip
-    # need a patched version of thrift_sasl.  see https://github.com/cloudera/impyla/issues/238
-    pip.main(['install', '--no-deps', 'git+https://github.com/snowch/thrift_sasl'])
-
 
 port = app.config['PORT']
-server = Server(host="0.0.0.0", port=port)
+server = Server(host="0.0.0.0", port=port, threaded=True)
 
 manager = Manager(app)
 manager.add_command("runserver", server)
