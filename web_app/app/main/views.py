@@ -22,7 +22,7 @@ from . import main
 from .. import app
 #from . import app
 
-from ..models import Movie, Recommendation, Rating
+from ..models import Movie, Recommendation, Rating, User
 from ..dao import RecommendationsNotGeneratedException, RecommendationsNotGeneratedForUserException
 
 import flask
@@ -207,11 +207,30 @@ def report():
     )
     return encode_utf8(html)
 
+def check_auth(username, password):
+
+    user = User.find_by_email(username)
+
+    if user is not None and user.verify_password(password):
+        return True
+    else:
+        return False
+
 # This method keeps a thread open for a long time which is
-# not ideal, but is the simplest way of checking
+# not ideal, but is the simplest way of checking.
 
 @main.route("/monitor")
 def monitor():
+
+    auth = request.authorization
+    if not auth or not check_auth(auth.username, auth.password):
+        data = { "error": "Permission denied." }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=550,
+            mimetype='application/json'
+        )
+        return response
 
     cursor = get_hive_cursor()
 
