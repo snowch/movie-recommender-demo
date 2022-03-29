@@ -23,7 +23,7 @@ MarkupSafe==0.23
 numpy==1.11.3
 oauth2-client==0.0.15
 pandas==0.20.1
-paramiko==2.0.8
+paramiko==2.10.1
 ply==3.10
 protobuf==2.6.1
 pure-sasl==0.4.0
