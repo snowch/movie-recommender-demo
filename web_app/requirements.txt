@@ -3,7 +3,7 @@ bitarray==0.8.1
 bokeh==0.12.4
 cffi==1.9.1
 cloudant==2.3.0
-cryptography==3.2
+cryptography==3.3.2
 dominate==2.2.0
 Flask==0.10.1
 Flask-Bootstrap==3.3.6.0
